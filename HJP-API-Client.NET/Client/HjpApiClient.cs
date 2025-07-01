@@ -14,7 +14,7 @@ namespace Hjp.Api.Client
 
         private HttpClient httpClient;
 
-        private UsersClient usersClient;
+        private UsersClient? usersClient;
 
         /// <summary>
         /// ユーザ関連APIのクライアント
@@ -24,14 +24,7 @@ namespace Hjp.Api.Client
         {
             get
             {
-                if (this.IsLoggedInWithUser == false)
-                {
-                    throw new InvalidOperationException(Messages.Erros.NotLoggedInWithUser);
-                }
-                else
-                {
-                    return this.usersClient;
-                }
+                return this.usersClient ?? throw new InvalidOperationException(Messages.Erros.NotLoggedInWithUser);
             }
         }
         /// <summary>
@@ -51,8 +44,6 @@ namespace Hjp.Api.Client
 
             this.httpClient = new HttpClient();
             this.httpClient.BaseAddress = new Uri(this.baseUrl);
-
-            this.usersClient = new UsersClient(this.httpClient);
         }
 
         /// <summary>
@@ -84,7 +75,7 @@ namespace Hjp.Api.Client
                 throw new InvalidOperationException(Messages.Erros.EmptyResponseBody);
             }
 
-            this.usersClient = new(this.httpClient);
+            this.usersClient = new(this.httpClient, result.DiscordUserId);
 
             return ResponseUtility.CreateSuccessResponse<UserLoginResponse>(response.StatusCode, result);
         }

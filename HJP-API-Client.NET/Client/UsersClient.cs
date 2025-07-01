@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Hjp.Api.Client.Dto;
 using Hjp.Shared.Dto.Users.Balance;
 using Hjp.Shared.Dto.Users.Deposit;
@@ -12,10 +13,12 @@ namespace Hjp.Api.Client
     internal class UsersClient : IUsersClient
     {
         private readonly HttpClient httpClient;
+        private readonly ulong discordUserId;
 
-        public UsersClient(HttpClient httpClient)
+        public UsersClient(HttpClient httpClient, ulong discordUserId)
         {
             this.httpClient = httpClient;
+            this.discordUserId = discordUserId;
         }
 
         public Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
