@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Libs\HJP-Shared\HJP-Shared\HJP-Shared.csproj" />
+  </ItemGroup>
+
 </Project>

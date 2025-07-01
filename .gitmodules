@@ -1,0 +1,3 @@
+[submodule "Libs/HJP-Shared"]
+	path = Libs/HJP-Shared
+	url = https://github.com/HIJIKIsw/HJP-Shared.git
