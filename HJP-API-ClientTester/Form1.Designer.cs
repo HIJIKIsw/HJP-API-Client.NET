@@ -30,6 +30,7 @@
         {
             flowLayoutPanel1 = new FlowLayoutPanel();
             loginButton = new Button();
+            getProfileButton = new Button();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -38,6 +39,7 @@
             flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             flowLayoutPanel1.AutoScroll = true;
             flowLayoutPanel1.Controls.Add(loginButton);
+            flowLayoutPanel1.Controls.Add(getProfileButton);
             flowLayoutPanel1.Location = new Point(12, 12);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(592, 466);
@@ -54,6 +56,18 @@
             loginButton.Text = "users/login";
             loginButton.UseVisualStyleBackColor = true;
             loginButton.Click += loginButton_Click;
+            // 
+            // getProfileButton
+            // 
+            getProfileButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            getProfileButton.AutoSize = true;
+            getProfileButton.Location = new Point(3, 36);
+            getProfileButton.Name = "getProfileButton";
+            getProfileButton.Size = new Size(556, 27);
+            getProfileButton.TabIndex = 28;
+            getProfileButton.Text = "users/me";
+            getProfileButton.UseVisualStyleBackColor = true;
+            getProfileButton.Click += getProfileButton_Click;
             // 
             // Form1
             // 
@@ -72,5 +86,6 @@
 
         private Button loginButton;
         private FlowLayoutPanel flowLayoutPanel1;
+        private Button getProfileButton;
     }
 }
