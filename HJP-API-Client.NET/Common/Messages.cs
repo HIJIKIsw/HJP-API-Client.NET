@@ -4,6 +4,8 @@ namespace Hjp.Api.Client.Common
     {
         public static class Erros
         {
+            public const string NotLoggedInWithUser = "先に LoginWithUserAsync を実行してください。";
+
             public const string EmptyResponseBody = "Empty response body";
         }
     }

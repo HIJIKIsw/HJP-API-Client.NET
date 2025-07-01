@@ -17,7 +17,7 @@ namespace HJP_API_ClientTester
             try
             {
                 var hjpApiClient = new HjpApiClient(AppSettings.ApiBaseUrl, AppSettings.ApiKey);
-                var result = await hjpApiClient.UsersClient.LoginAsync(AppSettings.AccessToken);
+                var result = await hjpApiClient.LoginWithUserAsync(AppSettings.AccessToken);
                 Debug.WriteLine("Success: " + result.Result?.UserName);
             }
             finally

@@ -1,8 +1,11 @@
-using System.Net.Http.Json;
-using System.Text.Json;
 using Hjp.Api.Client.Dto;
-using Hjp.Api.Client.Utilities;
-using Hjp.Shared.Dto.Users.Login;
+using Hjp.Shared.Dto.Users.Balance;
+using Hjp.Shared.Dto.Users.Deposit;
+using Hjp.Shared.Dto.Users.Me;
+using Hjp.Shared.Dto.Users.Stats;
+using Hjp.Shared.Dto.Users.Transactions;
+using Hjp.Shared.Dto.Users.Transfer;
+using Hjp.Shared.Dto.Users.Withdraw;
 
 namespace Hjp.Api.Client
 {
@@ -15,31 +18,39 @@ namespace Hjp.Api.Client
             this.httpClient = httpClient;
         }
 
-        public async Task<ApiResponse<UserLoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
+        public Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
-            var jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-            var postData = new
-            {
-                AccessToken = accessToken
-            };
-            var response = await this.httpClient.PostAsJsonAsync(
-                "/users/login",
-                postData,
-                jsonOptions,
-                cancellationToken);
-            if (response.IsSuccessStatusCode == false)
-            {
-                return ResponseUtility.CreateErrorResponse<UserLoginResponse>(
-                    response.StatusCode,
-                    await response.Content.ReadAsStringAsync(cancellationToken));
-            }
-            var result = await response.Content.ReadFromJsonAsync<UserLoginResponse>(jsonOptions, cancellationToken);
-            if (result == null)
-            {
-                throw new InvalidOperationException("Empty response body");
-            }
+            throw new NotImplementedException();
+        }
 
-            return ResponseUtility.CreateSuccessResponse<UserLoginResponse>(response.StatusCode, result);
+        public Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResponse<UserTransactionsResponse>> GetTransactionsAsync(UserTransactionsRequest? query = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResponse<UserStatsResponse>> GetStatsAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResponse<UserDepositResponse>> DepositAsync(UserDepositRequest request, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResponse<UserWithdrawResponse>> WithdrawAsync(UserWithdrawRequest request, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApiResponse<UserTransferResponse>> TransferAsync(UserTransferRequest request, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }
