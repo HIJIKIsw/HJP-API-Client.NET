@@ -29,7 +29,9 @@ namespace Hjp.Api.Client
                 cancellationToken);
             if (response.IsSuccessStatusCode == false)
             {
-                return ResponseUtility.CreateErrorResponse<UserLoginResponse>(response.StatusCode, await response.Content.ReadAsStringAsync());
+                return ResponseUtility.CreateErrorResponse<UserLoginResponse>(
+                    response.StatusCode,
+                    await response.Content.ReadAsStringAsync(cancellationToken));
             }
             var result = await response.Content.ReadFromJsonAsync<UserLoginResponse>(jsonOptions, cancellationToken);
             if (result == null)
