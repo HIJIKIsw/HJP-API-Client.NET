@@ -75,7 +75,7 @@ namespace Hjp.Api.Client
                 throw new InvalidOperationException(Messages.Erros.EmptyResponseBody);
             }
 
-            this.usersClient = new(this.httpClient, result.DiscordUserId);
+            this.usersClient = new(result.DiscordUserId);
 
             return ResponseUtility.CreateSuccessResponse<UserLoginResponse>(response.StatusCode, result);
         }

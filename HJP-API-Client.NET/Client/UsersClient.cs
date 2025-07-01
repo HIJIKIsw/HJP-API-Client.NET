@@ -1,5 +1,9 @@
+using System.Net.Http.Json;
+using System.Reflection.Metadata;
 using System.Text.Json;
+using Hjp.Api.Client.Common;
 using Hjp.Api.Client.Dto;
+using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Users.Balance;
 using Hjp.Shared.Dto.Users.Deposit;
 using Hjp.Shared.Dto.Users.Me;
@@ -13,17 +17,34 @@ namespace Hjp.Api.Client
     internal class UsersClient : IUsersClient
     {
         private readonly HttpClient httpClient;
-        private readonly ulong discordUserId;
 
-        public UsersClient(HttpClient httpClient, ulong discordUserId)
+        public UsersClient(string baseUrl, string apiKey, ulong discordUserId)
         {
-            this.httpClient = httpClient;
-            this.discordUserId = discordUserId;
+            this.httpClient = new();
+            this.httpClient.BaseAddress = new Uri(baseUrl);
+            this.httpClient.DefaultRequestHeaders.Add(Constants.DiscordUserIdHeader, discordUserId.ToString());
         }
 
-        public Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            // TOOD: リクエスト処理を共通化したい
+            var jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+            var response = await this.httpClient.GetAsync(
+                "users/me",
+                cancellationToken);
+            if (response.IsSuccessStatusCode == false)
+            {
+                return ResponseUtility.CreateErrorResponse<UserResponse>(
+                    response.StatusCode,
+                    await response.Content.ReadAsStringAsync(cancellationToken));
+            }
+            var result = await response.Content.ReadFromJsonAsync<UserResponse>(jsonOptions, cancellationToken);
+            if (result == null)
+            {
+                throw new InvalidOperationException(Messages.Erros.EmptyResponseBody);
+            }
+
+            return ResponseUtility.CreateSuccessResponse<UserResponse>(response.StatusCode, result);
         }
 
         public Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
