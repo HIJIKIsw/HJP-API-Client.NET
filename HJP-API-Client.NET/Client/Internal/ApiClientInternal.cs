@@ -81,7 +81,7 @@ namespace Hjp.Api.Client.Internal
         private async Task<ApiResponse<T>> PostAsyncInternal<T>(string route, object? query, Dictionary<string, string>? headers, object? body, CancellationToken cancellationToken)
         {
             var url = route + RequestUtility.ToQueryString(query!);
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
 
             if (headers != null)
             {
