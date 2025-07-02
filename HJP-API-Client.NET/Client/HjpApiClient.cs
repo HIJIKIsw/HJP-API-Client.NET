@@ -54,12 +54,24 @@ namespace Hjp.Api.Client
                 AccessToken = accessToken
             };
             var result = await this.apiClientInternal.PostAsync<UserLoginResponse>("users/login", body, null, cancellationToken);
-            if (result.IsSuccess == true)
+            if (result.IsSuccess == true && result.Result != null)
             {
-                this.usersClient = new(this.apiClientInternal, this.baseUrl, this.apiKey, result.Result!.DiscordUserId);
+                this.usersClient = new(this.apiClientInternal, result.Result.DiscordUserId);
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// ユーザからログアウト
+        /// </summary>
+        public void LogoutWithUser()
+        {
+            if (this.usersClient != null)
+            {
+                throw new InvalidOperationException("ログインされていません。");
+            }
+            this.usersClient = null;
         }
     }
 }

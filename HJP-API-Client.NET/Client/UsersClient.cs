@@ -16,17 +16,13 @@ namespace Hjp.Api.Client
 {
     internal class UsersClient : IUsersClient
     {
-        private readonly string baseUrl;
-        private readonly string apiKey;
         private readonly ulong discordUserId;
 
         private readonly ApiClientInternal apiClientInternal;
 
-        public UsersClient(ApiClientInternal apiClientInternal, string baseUrl, string apiKey, ulong discordUserId)
+        public UsersClient(ApiClientInternal apiClientInternal, ulong discordUserId)
         {
             this.apiClientInternal = apiClientInternal;
-            this.baseUrl = baseUrl;
-            this.apiKey = apiKey;
             this.discordUserId = discordUserId;
         }
 
