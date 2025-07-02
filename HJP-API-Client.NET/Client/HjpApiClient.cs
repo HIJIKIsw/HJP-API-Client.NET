@@ -59,13 +59,12 @@ namespace Hjp.Api.Client
         /// <summary>
         /// ユーザからログアウト
         /// </summary>
-        public void LogoutWithUser()
+        /// <returns>ログアウトに成功したか</returns>
+        public bool LogoutWithUser()
         {
-            if (this.usersClient != null)
-            {
-                throw new InvalidOperationException("ログインされていません。");
-            }
+            var result = this.usersClient != null;
             this.usersClient = null;
+            return result;
         }
     }
 }
