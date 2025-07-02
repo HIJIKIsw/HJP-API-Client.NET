@@ -56,7 +56,7 @@ namespace Hjp.Api.Client
             var result = await this.apiClientInternal.PostAsync<UserLoginResponse>("users/login", body, null, cancellationToken);
             if (result.IsSuccess == true)
             {
-                this.usersClient = new(this.baseUrl, this.apiKey, result.Result!.DiscordUserId);
+                this.usersClient = new(this.apiClientInternal, this.baseUrl, this.apiKey, result.Result!.DiscordUserId);
             }
 
             return result;

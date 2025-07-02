@@ -1,8 +1,8 @@
 using System.Net.Http.Json;
-using System.Reflection.Metadata;
 using System.Text.Json;
 using Hjp.Api.Client.Common;
 using Hjp.Api.Client.Dto;
+using Hjp.Api.Client.Internal;
 using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Users.Balance;
 using Hjp.Shared.Dto.Users.Deposit;
@@ -16,35 +16,23 @@ namespace Hjp.Api.Client
 {
     internal class UsersClient : IUsersClient
     {
-        private readonly HttpClient httpClient;
+        private readonly string baseUrl;
+        private readonly string apiKey;
+        private readonly ulong discordUserId;
 
-        public UsersClient(string baseUrl, string apiKey, ulong discordUserId)
+        private readonly ApiClientInternal apiClientInternal;
+
+        public UsersClient(ApiClientInternal apiClientInternal, string baseUrl, string apiKey, ulong discordUserId)
         {
-            this.httpClient = new();
-            this.httpClient.BaseAddress = new Uri(baseUrl);
-            this.httpClient.DefaultRequestHeaders.Add(Constants.DiscordUserIdHeaderName, discordUserId.ToString());
+            this.apiClientInternal = apiClientInternal;
+            this.baseUrl = baseUrl;
+            this.apiKey = apiKey;
+            this.discordUserId = discordUserId;
         }
 
         public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
-            // TOOD: リクエスト処理を共通化したい
-            var jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-            var response = await this.httpClient.GetAsync(
-                "users/me",
-                cancellationToken);
-            if (response.IsSuccessStatusCode == false)
-            {
-                return ResponseUtility.CreateErrorResponse<UserResponse>(
-                    response.StatusCode,
-                    await response.Content.ReadAsStringAsync(cancellationToken));
-            }
-            var result = await response.Content.ReadFromJsonAsync<UserResponse>(jsonOptions, cancellationToken);
-            if (result == null)
-            {
-                throw new InvalidOperationException(Messages.Erros.EmptyResponseBody);
-            }
-
-            return ResponseUtility.CreateSuccessResponse<UserResponse>(response.StatusCode, result);
+            return await this.apiClientInternal.GetWithSignatureAsync<UserResponse>(this.discordUserId, "users/me", null, cancellationToken);
         }
 
         public Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
