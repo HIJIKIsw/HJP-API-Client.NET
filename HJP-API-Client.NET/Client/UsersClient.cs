@@ -22,7 +22,7 @@ namespace Hjp.Api.Client
         {
             this.httpClient = new();
             this.httpClient.BaseAddress = new Uri(baseUrl);
-            this.httpClient.DefaultRequestHeaders.Add(Constants.DiscordUserIdHeader, discordUserId.ToString());
+            this.httpClient.DefaultRequestHeaders.Add(Constants.DiscordUserIdHeaderName, discordUserId.ToString());
         }
 
         public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
