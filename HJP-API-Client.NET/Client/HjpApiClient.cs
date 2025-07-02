@@ -7,9 +7,6 @@ namespace Hjp.Api.Client
 {
     public class HjpApiClient
     {
-        private readonly string baseUrl;
-        private readonly string apiKey;
-
         private readonly ApiClientInternal apiClientInternal;
 
         private UsersClient? usersClient;
@@ -37,9 +34,6 @@ namespace Hjp.Api.Client
         /// <param name="apiKey">APIキー</param>
         public HjpApiClient(string baseUrl, string apiKey)
         {
-            this.baseUrl = baseUrl;
-            this.apiKey = apiKey;
-
             this.apiClientInternal = new(baseUrl, apiKey);
         }
 
