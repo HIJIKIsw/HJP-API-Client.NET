@@ -21,6 +21,10 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.LoginWithUserAsync(AppSettings.AccessToken);
+                if (result.IsSuccess == false)
+                {
+                    throw new Exception(result.Message);
+                }
                 Debug.WriteLine("Login Success: " + result.Result?.UserName);
             }
             catch (Exception ex)
@@ -39,6 +43,10 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.UsersClient.GetProfileAsync();
+                if (result.IsSuccess == false)
+                {
+                    throw new Exception(result.Message);
+                }
                 Debug.WriteLine("GetProfile Success: " + result.Result?.Name);
             }
             catch (Exception ex)
