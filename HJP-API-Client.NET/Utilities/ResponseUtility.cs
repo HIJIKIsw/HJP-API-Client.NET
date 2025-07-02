@@ -3,7 +3,7 @@ using Hjp.Api.Client.Dto;
 
 namespace Hjp.Api.Client.Utilities
 {
-    public static class ResponseUtility
+    internal static class ResponseUtility
     {
         public static ApiResponse<T> CreateSuccessResponse<T>(HttpStatusCode statusCode, T result, string? message = null)
         {
