@@ -1,5 +1,7 @@
 using Hjp.Api.Client;
 using Hjp.Api.Client.Tester;
+using Hjp.Shared.Dto.Moderator.Login;
+using Hjp.Shared.Dto.Moderator.Users.Register;
 using Hjp.Shared.Dto.Users.Deposit;
 using Hjp.Shared.Dto.Users.Login;
 using Hjp.Shared.Dto.Users.Transfer;
@@ -178,6 +180,99 @@ namespace HJP_API_ClientTester
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                 };
                 var result = await this.hjpApiClient.UsersClient.TransferAsync(request);
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void moderatorLoginButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new ModeratorLoginRequest()
+                {
+                    AccessToken = AppSettings.AccessToken
+                };
+                var result = await this.hjpApiClient.LoginWithModeratorAsync(request);
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        // HACK: ここにメンバを書くべきではないが便宜上こうする
+        private ulong lastCreatedDiscordUserId = 555;
+
+        private async void moderatorRegisterUserButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var discordUserId = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                var request = new ModeratorUserRegisterRequest()
+                {
+                    DiscordUserId = discordUserId,
+                    UserName = $"TestByTester: {discordUserId}"
+                };
+                var result = await this.hjpApiClient.ModeratorClient.RegisterUserAsync(request);
+                if (result.IsSuccess == true && result.Result != null)
+                {
+                    this.lastCreatedDiscordUserId = discordUserId;
+                }
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void moderatorGetAccessTokenButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.ModeratorClient.GetUserAccessTokenAsync(this.lastCreatedDiscordUserId);
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void moderatorResetAccessTokenButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.ModeratorClient.ResetUserAccessTokenAsync(this.lastCreatedDiscordUserId);
                 Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)

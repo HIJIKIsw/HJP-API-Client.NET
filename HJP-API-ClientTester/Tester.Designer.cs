@@ -37,6 +37,10 @@
             depositButton = new Button();
             withdrawButton = new Button();
             transferButton = new Button();
+            moderatorRegisterUserButton = new Button();
+            moderatorGetAccessTokenButton = new Button();
+            moderatorResetAccessTokenButton = new Button();
+            moderatorLoginButton = new Button();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -52,6 +56,10 @@
             flowLayoutPanel1.Controls.Add(depositButton);
             flowLayoutPanel1.Controls.Add(withdrawButton);
             flowLayoutPanel1.Controls.Add(transferButton);
+            flowLayoutPanel1.Controls.Add(moderatorLoginButton);
+            flowLayoutPanel1.Controls.Add(moderatorRegisterUserButton);
+            flowLayoutPanel1.Controls.Add(moderatorGetAccessTokenButton);
+            flowLayoutPanel1.Controls.Add(moderatorResetAccessTokenButton);
             flowLayoutPanel1.Location = new Point(12, 12);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(592, 466);
@@ -153,6 +161,54 @@
             transferButton.UseVisualStyleBackColor = true;
             transferButton.Click += transferButton_Click;
             // 
+            // moderatorRegisterUserButton
+            // 
+            moderatorRegisterUserButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            moderatorRegisterUserButton.AutoSize = true;
+            moderatorRegisterUserButton.Location = new Point(3, 300);
+            moderatorRegisterUserButton.Name = "moderatorRegisterUserButton";
+            moderatorRegisterUserButton.Size = new Size(556, 27);
+            moderatorRegisterUserButton.TabIndex = 35;
+            moderatorRegisterUserButton.Text = "moderator/users/register";
+            moderatorRegisterUserButton.UseVisualStyleBackColor = true;
+            moderatorRegisterUserButton.Click += moderatorRegisterUserButton_Click;
+            // 
+            // moderatorGetAccessTokenButton
+            // 
+            moderatorGetAccessTokenButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            moderatorGetAccessTokenButton.AutoSize = true;
+            moderatorGetAccessTokenButton.Location = new Point(3, 333);
+            moderatorGetAccessTokenButton.Name = "moderatorGetAccessTokenButton";
+            moderatorGetAccessTokenButton.Size = new Size(556, 27);
+            moderatorGetAccessTokenButton.TabIndex = 36;
+            moderatorGetAccessTokenButton.Text = "moderator/users/{discordUserId}/access-token";
+            moderatorGetAccessTokenButton.UseVisualStyleBackColor = true;
+            moderatorGetAccessTokenButton.Click += moderatorGetAccessTokenButton_Click;
+            // 
+            // moderatorResetAccessTokenButton
+            // 
+            moderatorResetAccessTokenButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            moderatorResetAccessTokenButton.AutoSize = true;
+            moderatorResetAccessTokenButton.Location = new Point(3, 366);
+            moderatorResetAccessTokenButton.Name = "moderatorResetAccessTokenButton";
+            moderatorResetAccessTokenButton.Size = new Size(556, 27);
+            moderatorResetAccessTokenButton.TabIndex = 37;
+            moderatorResetAccessTokenButton.Text = "moderator/users/{discordUserId}/access-token/reset";
+            moderatorResetAccessTokenButton.UseVisualStyleBackColor = true;
+            moderatorResetAccessTokenButton.Click += moderatorResetAccessTokenButton_Click;
+            // 
+            // moderatorLoginButton
+            // 
+            moderatorLoginButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            moderatorLoginButton.AutoSize = true;
+            moderatorLoginButton.Location = new Point(3, 267);
+            moderatorLoginButton.Name = "moderatorLoginButton";
+            moderatorLoginButton.Size = new Size(556, 27);
+            moderatorLoginButton.TabIndex = 38;
+            moderatorLoginButton.Text = "moderator/login";
+            moderatorLoginButton.UseVisualStyleBackColor = true;
+            moderatorLoginButton.Click += moderatorLoginButton_Click;
+            // 
             // Tester
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -177,5 +233,9 @@
         private Button depositButton;
         private Button withdrawButton;
         private Button transferButton;
+        private Button moderatorRegisterUserButton;
+        private Button moderatorGetAccessTokenButton;
+        private Button moderatorResetAccessTokenButton;
+        private Button moderatorLoginButton;
     }
 }
