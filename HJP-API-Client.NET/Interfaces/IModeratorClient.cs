@@ -19,6 +19,7 @@ namespace Hjp.Api.Client.Interfaces
         /// </summary>
         /// <param name="discordUserId">アクセストークンを生成するユーザのDiscordユーザID</param>
         /// <remarks>先に <see cref="HjpApiClient.LoginWithModeratorAsync"/> を実行してください。</remarks>
+        [Obsolete("Use ResetUserAccessTokenAsync instead")]
         Task<ApiResponse<ModeratorUserAccessTokenResponse>> GetUserAccessTokenAsync(ulong discordUserId, CancellationToken cancellationToken = default);
 
         /// <summary>
