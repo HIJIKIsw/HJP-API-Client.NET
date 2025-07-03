@@ -7,7 +7,7 @@ using Hjp.Shared.Dto.Users.Transactions;
 using Hjp.Shared.Dto.Users.Transfer;
 using Hjp.Shared.Dto.Users.Withdraw;
 
-namespace Hjp.Api.Client
+namespace Hjp.Api.Client.Interfaces
 {
     public interface IUsersClient
     {

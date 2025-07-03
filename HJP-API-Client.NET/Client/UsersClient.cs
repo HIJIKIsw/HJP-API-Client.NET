@@ -1,4 +1,5 @@
 using Hjp.Api.Client.Dto;
+using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
 using Hjp.Shared.Dto.Users.Balance;
 using Hjp.Shared.Dto.Users.Deposit;
