@@ -1,6 +1,6 @@
 ﻿namespace HJP_API_ClientTester
 {
-    partial class Form1
+    partial class Tester
     {
         /// <summary>
         ///  Required designer variable.

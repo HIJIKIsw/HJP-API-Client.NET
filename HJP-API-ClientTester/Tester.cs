@@ -4,11 +4,11 @@ using System.Diagnostics;
 
 namespace HJP_API_ClientTester
 {
-    public partial class Form1 : Form
+    public partial class Tester : Form
     {
         private HjpApiClient hjpApiClient;
 
-        public Form1()
+        public Tester()
         {
             this.InitializeComponent();
 
