@@ -3,6 +3,7 @@ using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
 using Hjp.Shared.Dto.Admin.Login;
+using Hjp.Shared.Dto.Maintenance;
 using Hjp.Shared.Dto.Moderator.Login;
 using Hjp.Shared.Dto.Users.Login;
 
@@ -50,6 +51,14 @@ namespace Hjp.Api.Client
         public HjpApiClient(string baseUrl, string apiKey)
         {
             this.apiClientInternal = new(baseUrl, apiKey);
+        }
+
+        /// <summary>
+        /// メンテナンス状態を取得
+        /// </summary>
+        public async Task<ApiResponse<MaintenanceResponse>> GetMaintenanceStatusAsync(CancellationToken cancellationToken = default)
+        {
+            return await this.apiClientInternal.GetAsync<MaintenanceResponse>("maintenance", null, cancellationToken);
         }
 
         /// <summary>
