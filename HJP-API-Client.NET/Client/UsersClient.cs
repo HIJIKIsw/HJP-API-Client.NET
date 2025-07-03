@@ -1,9 +1,5 @@
-using System.Net.Http.Json;
-using System.Text.Json;
-using Hjp.Api.Client.Common;
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Internal;
-using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Users.Balance;
 using Hjp.Shared.Dto.Users.Deposit;
 using Hjp.Shared.Dto.Users.Me;
@@ -28,37 +24,68 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
-            return await this.apiClientInternal.GetWithSignatureAsync<UserResponse>(this.discordUserId, "users/me", null, cancellationToken);
+            return await this.apiClientInternal.GetWithSignatureAsync<UserResponse>(
+                discordUserId: this.discordUserId,
+                route: "users/me",
+                query: null,
+                cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await this.apiClientInternal.GetWithSignatureAsync<UserBalanceResponse>(
+                discordUserId: this.discordUserId,
+                route: "users/balance",
+                query: null,
+                cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserTransactionsResponse>> GetTransactionsAsync(UserTransactionsRequest? query = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await this.apiClientInternal.GetWithSignatureAsync<UserTransactionsResponse>(
+                discordUserId: this.discordUserId,
+                route: "users/balance",
+                query: query,
+                cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserStatsResponse>> GetStatsAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await this.apiClientInternal.GetWithSignatureAsync<UserStatsResponse>(
+                discordUserId: this.discordUserId,
+                route: "users/stats",
+                query: null,
+                cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserDepositResponse>> DepositAsync(UserDepositRequest request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await this.apiClientInternal.PostWithSignatureAsync<UserDepositResponse>(
+                discordUserId: this.discordUserId,
+                route: "users/deposit",
+                body: request,
+                query: null,
+                cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserWithdrawResponse>> WithdrawAsync(UserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await this.apiClientInternal.PostWithSignatureAsync<UserWithdrawResponse>(
+                discordUserId: this.discordUserId,
+                route: "users/withdraw",
+                body: request,
+                query: null,
+                cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserTransferResponse>> TransferAsync(UserTransferRequest request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await this.apiClientInternal.PostWithSignatureAsync<UserTransferResponse>(
+                discordUserId: this.discordUserId,
+                route: "users/withdraw",
+                body: request,
+                query: null,
+                cancellationToken: cancellationToken);
         }
     }
 }
