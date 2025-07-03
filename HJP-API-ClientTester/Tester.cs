@@ -1,5 +1,8 @@
 using Hjp.Api.Client;
 using Hjp.Api.Client.Tester;
+using Hjp.Shared.Dto.Admin.Login;
+using Hjp.Shared.Dto.Admin.Users.Deposit;
+using Hjp.Shared.Dto.Admin.Users.Withdraw;
 using Hjp.Shared.Dto.Moderator.Login;
 using Hjp.Shared.Dto.Moderator.Users.Register;
 using Hjp.Shared.Dto.Users.Deposit;
@@ -273,6 +276,112 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.ModeratorClient.ResetUserAccessTokenAsync(this.lastCreatedDiscordUserId);
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminLoginButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new AdminLoginRequest() { AccessToken = AppSettings.AccessToken };
+                var result = await this.hjpApiClient.LoginWithAdminAsync(request);
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminGetUserProfileButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.AdminClient.GetUserProfileAsync(this.lastCreatedDiscordUserId);
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminUserDepositButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new AdminUserDepositRequest()
+                {
+                    Amount = 5,
+                    Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()
+                };
+                var result = await this.hjpApiClient.AdminClient.UserDepositAsync(this.lastCreatedDiscordUserId, request);
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminUserWithdrawButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new AdminUserWithdrawRequest()
+                {
+                    Amount = 10,
+                    Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()
+                };
+                var result = await this.hjpApiClient.AdminClient.UserWithdrawAsync(this.lastCreatedDiscordUserId, request);
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminTransactionsButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.AdminClient.GetTransactionsAsync();
                 Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
