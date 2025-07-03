@@ -2,6 +2,7 @@ using Hjp.Api.Client.Common;
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
+using Hjp.Shared.Dto.Admin.Login;
 using Hjp.Shared.Dto.Moderator.Login;
 using Hjp.Shared.Dto.Users.Login;
 
@@ -13,6 +14,7 @@ namespace Hjp.Api.Client
 
         private UsersClient? usersClient;
         private ModeratorClient? moderatorClient;
+        private AdminClient? adminClient;
 
         /// <summary>
         /// ユーザ関連APIのクライアント
@@ -31,6 +33,14 @@ namespace Hjp.Api.Client
         /// モデレータでログインしているか
         /// </summary>
         public bool IsLoggedInWithModerator => this.moderatorClient != null;
+        /// <summary>
+        /// 管理者関連APIのクライアント
+        /// </summary>
+        public IAdminClient AdminClient => this.adminClient ?? throw new InvalidOperationException(Messages.Erros.NotLoggedInWithAdmin);
+        /// <summary>
+        /// 管理者でログインしているか
+        /// </summary>
+        public bool IsLoggedInWithAdmin => this.adminClient != null;
 
         /// <summary>
         /// コンストラクタ
@@ -90,6 +100,31 @@ namespace Hjp.Api.Client
         {
             var result = this.moderatorClient != null;
             this.moderatorClient = null;
+            return result;
+        }
+
+        /// <summary>
+        /// 管理者としてログイン
+        /// </summary>
+        public async Task<ApiResponse<AdminLoginResponse>> LoginWithAdminAsync(AdminLoginRequest request, CancellationToken cancellationToken = default)
+        {
+            var result = await this.apiClientInternal.PostAsync<AdminLoginResponse>("admin/login", request, null, cancellationToken);
+            if (result.IsSuccess == true && result.Result != null)
+            {
+                this.adminClient = new(this.apiClientInternal, result.Result.DiscordUserId);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 管理者からログアウト
+        /// </summary>
+        /// <returns>ログアウトに成功したか</returns>
+        public bool LogoutWithAdmin()
+        {
+            var result = this.adminClient != null;
+            this.adminClient = null;
             return result;
         }
     }
