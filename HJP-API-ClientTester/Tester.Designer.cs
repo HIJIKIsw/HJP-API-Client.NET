@@ -46,6 +46,7 @@
             adminUserDepositButton = new Button();
             adminUserWithdrawButton = new Button();
             adminTransactionsButton = new Button();
+            searchUserButton = new Button();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -67,13 +68,16 @@
             flowLayoutPanel1.Controls.Add(moderatorResetAccessTokenButton);
             flowLayoutPanel1.Controls.Add(adminLoginButton);
             flowLayoutPanel1.Controls.Add(adminGetUserProfileButton);
+            flowLayoutPanel1.Controls.Add(searchUserButton);
             flowLayoutPanel1.Controls.Add(adminUserDepositButton);
             flowLayoutPanel1.Controls.Add(adminUserWithdrawButton);
             flowLayoutPanel1.Controls.Add(adminTransactionsButton);
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(12, 12);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(592, 466);
+            flowLayoutPanel1.Size = new Size(584, 466);
             flowLayoutPanel1.TabIndex = 1;
+            flowLayoutPanel1.WrapContents = false;
             // 
             // loginButton
             // 
@@ -247,7 +251,7 @@
             // 
             adminUserDepositButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminUserDepositButton.AutoSize = true;
-            adminUserDepositButton.Location = new Point(3, 465);
+            adminUserDepositButton.Location = new Point(3, 498);
             adminUserDepositButton.Name = "adminUserDepositButton";
             adminUserDepositButton.Size = new Size(556, 27);
             adminUserDepositButton.TabIndex = 41;
@@ -259,7 +263,7 @@
             // 
             adminUserWithdrawButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminUserWithdrawButton.AutoSize = true;
-            adminUserWithdrawButton.Location = new Point(3, 498);
+            adminUserWithdrawButton.Location = new Point(3, 531);
             adminUserWithdrawButton.Name = "adminUserWithdrawButton";
             adminUserWithdrawButton.Size = new Size(556, 27);
             adminUserWithdrawButton.TabIndex = 42;
@@ -271,7 +275,7 @@
             // 
             adminTransactionsButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminTransactionsButton.AutoSize = true;
-            adminTransactionsButton.Location = new Point(3, 531);
+            adminTransactionsButton.Location = new Point(3, 564);
             adminTransactionsButton.Name = "adminTransactionsButton";
             adminTransactionsButton.Size = new Size(556, 27);
             adminTransactionsButton.TabIndex = 43;
@@ -279,11 +283,23 @@
             adminTransactionsButton.UseVisualStyleBackColor = true;
             adminTransactionsButton.Click += adminTransactionsButton_Click;
             // 
+            // searchUserButton
+            // 
+            searchUserButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            searchUserButton.AutoSize = true;
+            searchUserButton.Location = new Point(3, 465);
+            searchUserButton.Name = "searchUserButton";
+            searchUserButton.Size = new Size(556, 27);
+            searchUserButton.TabIndex = 44;
+            searchUserButton.Text = "admin/users/search";
+            searchUserButton.UseVisualStyleBackColor = true;
+            searchUserButton.Click += searchUserButton_Click;
+            // 
             // Tester
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(616, 490);
+            ClientSize = new Size(608, 490);
             Controls.Add(flowLayoutPanel1);
             Name = "Tester";
             Text = "Form1";
@@ -312,5 +328,6 @@
         private Button adminUserDepositButton;
         private Button adminUserWithdrawButton;
         private Button adminTransactionsButton;
+        private Button searchUserButton;
     }
 }
