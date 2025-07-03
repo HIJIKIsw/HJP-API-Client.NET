@@ -35,7 +35,7 @@ namespace Hjp.Api.Client
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserBalanceResponse>(
                 discordUserId: this.discordUserId,
-                route: "users/balance",
+                route: "users/me/balance",
                 query: null,
                 cancellationToken: cancellationToken);
         }
@@ -44,7 +44,7 @@ namespace Hjp.Api.Client
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserTransactionsResponse>(
                 discordUserId: this.discordUserId,
-                route: "users/balance",
+                route: "users/me/transactions",
                 query: query,
                 cancellationToken: cancellationToken);
         }
@@ -53,7 +53,7 @@ namespace Hjp.Api.Client
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserStatsResponse>(
                 discordUserId: this.discordUserId,
-                route: "users/stats",
+                route: "users/me/stats",
                 query: null,
                 cancellationToken: cancellationToken);
         }
@@ -62,7 +62,7 @@ namespace Hjp.Api.Client
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserDepositResponse>(
                 discordUserId: this.discordUserId,
-                route: "users/deposit",
+                route: "users/me/deposit",
                 body: request,
                 query: null,
                 cancellationToken: cancellationToken);
@@ -72,7 +72,7 @@ namespace Hjp.Api.Client
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserWithdrawResponse>(
                 discordUserId: this.discordUserId,
-                route: "users/withdraw",
+                route: "users/me/withdraw",
                 body: request,
                 query: null,
                 cancellationToken: cancellationToken);
@@ -82,7 +82,7 @@ namespace Hjp.Api.Client
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserTransferResponse>(
                 discordUserId: this.discordUserId,
-                route: "users/withdraw",
+                route: "users/me/transfer",
                 body: request,
                 query: null,
                 cancellationToken: cancellationToken);
