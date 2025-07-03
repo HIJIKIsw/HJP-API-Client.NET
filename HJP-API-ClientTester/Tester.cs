@@ -4,6 +4,7 @@ using Hjp.Shared.Dto.Admin.Login;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
 using Hjp.Shared.Dto.Moderator.Login;
+using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
 using Hjp.Shared.Dto.Users.Deposit;
 using Hjp.Shared.Dto.Users.Login;
@@ -231,7 +232,8 @@ namespace HJP_API_ClientTester
                 var request = new ModeratorUserRegisterRequest()
                 {
                     DiscordUserId = discordUserId,
-                    UserName = $"TestByTester: {discordUserId}"
+                    UserName = $"TestByTester: {discordUserId}",
+                    AvatarUrl = $"https://test.bytester/{discordUserId}",
                 };
                 var result = await this.hjpApiClient.ModeratorClient.RegisterUserAsync(request);
                 if (result.IsSuccess == true && result.Result != null)
@@ -275,7 +277,13 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var result = await this.hjpApiClient.ModeratorClient.ResetUserAccessTokenAsync(this.lastCreatedDiscordUserId);
+                var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                var request = new ModeratorUserAccessTokenResetRequest()
+                {
+                    UserName = $"TestByTester: {now}",
+                    AvatarUrl = $"https://test.by.tester/{now}",
+                };
+                var result = await this.hjpApiClient.ModeratorClient.ResetUserAccessTokenAsync(this.lastCreatedDiscordUserId, request);
                 Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
