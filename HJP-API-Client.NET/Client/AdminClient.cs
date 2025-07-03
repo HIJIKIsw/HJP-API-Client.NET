@@ -49,7 +49,7 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<AdminTransactionsResponse>> GetTransactionsAsync(AdminTransactionsRequest request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<AdminTransactionsResponse>> GetTransactionsAsync(AdminTransactionsRequest? request = null, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<AdminTransactionsResponse>(
                 discordUserId: this.discordUserId,
