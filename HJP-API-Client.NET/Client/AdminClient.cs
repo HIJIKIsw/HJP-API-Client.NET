@@ -4,6 +4,7 @@ using Hjp.Api.Client.Internal;
 using Hjp.Shared.Dto.Admin.Transactions;
 using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
+using Hjp.Shared.Dto.Admin.Users.Search;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
 
 namespace Hjp.Api.Client
@@ -26,6 +27,19 @@ namespace Hjp.Api.Client
                 discordUserId: this.discordUserId,
                 route: $"admin/users/{discordUserId}",
                 query: null,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminUserSearchResponse>> SearchUserAsync(AdminUserSearchRequest? request = null, CancellationToken cancellationToken = default)
+        {
+            if (request == null)
+            {
+                request = new AdminUserSearchRequest();
+            }
+            return await this.apiClientInternal.GetWithSignatureAsync<AdminUserSearchResponse>(
+                discordUserId: this.discordUserId,
+                route: "admin/users/search",
+                query: request,
                 cancellationToken: cancellationToken);
         }
 

@@ -2,6 +2,7 @@ using Hjp.Api.Client.Dto;
 using Hjp.Shared.Dto.Admin.Transactions;
 using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
+using Hjp.Shared.Dto.Admin.Users.Search;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
 
 namespace Hjp.Api.Client.Interfaces
@@ -14,6 +15,13 @@ namespace Hjp.Api.Client.Interfaces
         /// <param name="discordUserId">取得対象DiscordユーザID</param>
         /// <remarks>先に <see cref="IAdminClient.GetUserProfileAsync(string, CancellationToken)"/> を実行してください</remarks>
         Task<ApiResponse<AdminUserResponse>> GetUserProfileAsync(ulong discordUserId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// ユーザを検索
+        /// </summary>
+        /// <param name="request">検索条件 (省略時はすべて取得)</param>
+        /// <remarks>先に <see cref="IAdminClient.GetUserProfileAsync(string, CancellationToken)"/> を実行してください</remarks>
+        Task<ApiResponse<AdminUserSearchResponse>> SearchUserAsync(AdminUserSearchRequest? request = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// ユーザの入金
