@@ -46,13 +46,9 @@ namespace Hjp.Api.Client
         /// ユーザとしてログイン
         /// </summary>
         /// <param name="accessToken">アクセストークン</param>
-        public async Task<ApiResponse<UserLoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<UserLoginResponse>> LoginWithUserAsync(UserLoginRequest request, CancellationToken cancellationToken = default)
         {
-            var body = new UserLoginRequest()
-            {
-                AccessToken = accessToken
-            };
-            var result = await this.apiClientInternal.PostAsync<UserLoginResponse>("users/login", body, null, cancellationToken);
+            var result = await this.apiClientInternal.PostAsync<UserLoginResponse>("users/login", request, null, cancellationToken);
             if (result.IsSuccess == true && result.Result != null)
             {
                 this.usersClient = new(this.apiClientInternal, result.Result.DiscordUserId);
