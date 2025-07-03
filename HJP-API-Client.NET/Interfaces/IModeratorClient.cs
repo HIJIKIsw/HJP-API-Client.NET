@@ -1,5 +1,5 @@
 using Hjp.Api.Client.Dto;
-using Hjp.Shared.Dto.Moderator.Users.AccessToken;
+using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
 
 namespace Hjp.Api.Client.Interfaces
@@ -20,7 +20,7 @@ namespace Hjp.Api.Client.Interfaces
         /// <param name="discordUserId">アクセストークンを生成するユーザのDiscordユーザID</param>
         /// <remarks>先に <see cref="HjpApiClient.LoginWithModeratorAsync"/> を実行してください。</remarks>
         [Obsolete("Use ResetUserAccessTokenAsync instead")]
-        Task<ApiResponse<ModeratorUserAccessTokenResponse>> GetUserAccessTokenAsync(ulong discordUserId, CancellationToken cancellationToken = default);
+        Task<ApiResponse<ModeratorUserAccessTokenResetResponse>> GetUserAccessTokenAsync(ulong discordUserId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// ユーザのアクセストークンをリセット
@@ -28,6 +28,6 @@ namespace Hjp.Api.Client.Interfaces
         /// </summary>
         /// <param name="discordUserId">アクセストークンを生成するユーザのDiscordユーザID</param>
         /// <remarks>先に <see cref="HjpApiClient.LoginWithModeratorAsync"/> を実行してください。</remarks>
-        Task<ApiResponse<ModeratorUserAccessTokenResponse>> ResetUserAccessTokenAsync(ulong discordUserId, CancellationToken cancellationToken = default);
+        Task<ApiResponse<ModeratorUserAccessTokenResetResponse>> ResetUserAccessTokenAsync(ulong discordUserId, ModeratorUserAccessTokenResetRequest request, CancellationToken cancellationToken = default);
     }
 }

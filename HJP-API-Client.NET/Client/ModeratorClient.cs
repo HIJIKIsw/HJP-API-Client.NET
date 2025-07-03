@@ -1,7 +1,7 @@
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
-using Hjp.Shared.Dto.Moderator.Users.AccessToken;
+using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
 
 namespace Hjp.Api.Client
@@ -28,21 +28,22 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<ModeratorUserAccessTokenResponse>> GetUserAccessTokenAsync(ulong discordUserId, CancellationToken cancellationToken = default)
+        [Obsolete("Use ResetUserAccessTokenAsync instead.")]
+        public async Task<ApiResponse<ModeratorUserAccessTokenResetResponse>> GetUserAccessTokenAsync(ulong discordUserId, CancellationToken cancellationToken = default)
         {
-            return await this.apiClientInternal.GetWithSignatureAsync<ModeratorUserAccessTokenResponse>(
+            return await this.apiClientInternal.GetWithSignatureAsync<ModeratorUserAccessTokenResetResponse>(
                 discordUserId: this.discordUserId,
                 route: $"moderator/users/{discordUserId}/access-token",
                 query: null,
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<ModeratorUserAccessTokenResponse>> ResetUserAccessTokenAsync(ulong discordUserId, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<ModeratorUserAccessTokenResetResponse>> ResetUserAccessTokenAsync(ulong discordUserId, ModeratorUserAccessTokenResetRequest request, CancellationToken cancellationToken = default)
         {
-            return await this.apiClientInternal.PostWithSignatureAsync<ModeratorUserAccessTokenResponse>(
+            return await this.apiClientInternal.PostWithSignatureAsync<ModeratorUserAccessTokenResetResponse>(
                 discordUserId: this.discordUserId,
                 route: $"moderator/users/{discordUserId}/access-token/reset",
-                body: null!,
+                body: request,
                 query: null,
                 cancellationToken: cancellationToken);
         }
