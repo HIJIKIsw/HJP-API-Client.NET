@@ -10,7 +10,6 @@ using Hjp.Shared.Dto.Users.Deposit;
 using Hjp.Shared.Dto.Users.Login;
 using Hjp.Shared.Dto.Users.Transfer;
 using Hjp.Shared.Dto.Users.Withdraw;
-using Hjp.Shared.Entities;
 using System.Diagnostics;
 using System.Text.Json;
 
