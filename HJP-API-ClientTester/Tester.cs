@@ -419,5 +419,24 @@ namespace HJP_API_ClientTester
                 button.Enabled = true;
             }
         }
+
+        private async void getMaintenanceStatusButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.GetMaintenanceStatusAsync();
+                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
     }
 }
