@@ -8,6 +8,7 @@ using Hjp.Shared.Dto.Users.Me.Stats;
 using Hjp.Shared.Dto.Users.Me.Transactions;
 using Hjp.Shared.Dto.Users.Me.Transfer;
 using Hjp.Shared.Dto.Users.Me.Withdraw;
+using Hjp.Shared.Dto.Routes.Users.Me.Lottery;
 
 namespace Hjp.Api.Client
 {
@@ -85,6 +86,16 @@ namespace Hjp.Api.Client
                 discordUserId: this.discordUserId,
                 route: "users/me/transfer",
                 body: request,
+                query: null,
+                cancellationToken: cancellationToken);
+        }
+
+        public Task<ApiResponse<UserLotteryResponse>> Lottery(CancellationToken cancellationToken = default)
+        {
+            return this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
+                discordUserId: this.discordUserId,
+                route: "users/me/lottery",
+                body: null!,
                 query: null,
                 cancellationToken: cancellationToken);
         }

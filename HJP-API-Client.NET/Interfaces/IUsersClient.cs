@@ -6,6 +6,7 @@ using Hjp.Shared.Dto.Users.Me.Stats;
 using Hjp.Shared.Dto.Users.Me.Transactions;
 using Hjp.Shared.Dto.Users.Me.Transfer;
 using Hjp.Shared.Dto.Users.Me.Withdraw;
+using Hjp.Shared.Dto.Routes.Users.Me.Lottery;
 
 namespace Hjp.Api.Client.Interfaces
 {
@@ -56,5 +57,11 @@ namespace Hjp.Api.Client.Interfaces
         /// <param name="request">送金情報</param>
         /// <remarks>先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください</remarks>
         Task<ApiResponse<UserTransferResponse>> TransferAsync(UserTransferRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// くじを引く
+        /// </summary>
+        /// <remarks>先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください</remarks>
+        Task<ApiResponse<UserLotteryResponse>> Lottery(CancellationToken cancellationToken = default);
     }
 }
