@@ -6,10 +6,10 @@ using Hjp.Shared.Dto.Admin.Users.Withdraw;
 using Hjp.Shared.Dto.Moderator.Login;
 using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
-using Hjp.Shared.Dto.Users.Deposit;
+using Hjp.Shared.Dto.Users.Me.Deposit;
 using Hjp.Shared.Dto.Users.Login;
-using Hjp.Shared.Dto.Users.Transfer;
-using Hjp.Shared.Dto.Users.Withdraw;
+using Hjp.Shared.Dto.Users.Me.Transfer;
+using Hjp.Shared.Dto.Users.Me.Withdraw;
 using System.Diagnostics;
 using System.Text.Json;
 

@@ -1,11 +1,11 @@
 using Hjp.Api.Client.Dto;
-using Hjp.Shared.Dto.Users.Balance;
-using Hjp.Shared.Dto.Users.Deposit;
+using Hjp.Shared.Dto.Users.Me.Balance;
+using Hjp.Shared.Dto.Users.Me.Deposit;
 using Hjp.Shared.Dto.Users.Me;
-using Hjp.Shared.Dto.Users.Stats;
-using Hjp.Shared.Dto.Users.Transactions;
-using Hjp.Shared.Dto.Users.Transfer;
-using Hjp.Shared.Dto.Users.Withdraw;
+using Hjp.Shared.Dto.Users.Me.Stats;
+using Hjp.Shared.Dto.Users.Me.Transactions;
+using Hjp.Shared.Dto.Users.Me.Transfer;
+using Hjp.Shared.Dto.Users.Me.Withdraw;
 
 namespace Hjp.Api.Client.Interfaces
 {
