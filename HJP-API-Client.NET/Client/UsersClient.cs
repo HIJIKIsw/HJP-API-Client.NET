@@ -95,7 +95,7 @@ namespace Hjp.Api.Client
         {
             return this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
                 discordUserId: this.discordUserId,
-                route: "users/me/lottery",
+                route: "me/lottery/draw",
                 body: null!,
                 query: null,
                 cancellationToken: cancellationToken);
