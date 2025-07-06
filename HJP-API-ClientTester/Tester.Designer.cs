@@ -39,6 +39,7 @@
             withdrawButton = new Button();
             transferButton = new Button();
             lotteryButton = new Button();
+            getLotteryBank = new Button();
             moderatorLoginButton = new Button();
             moderatorRegisterUserButton = new Button();
             moderatorGetAccessTokenButton = new Button();
@@ -49,7 +50,6 @@
             adminUserDepositButton = new Button();
             adminUserWithdrawButton = new Button();
             adminTransactionsButton = new Button();
-            getLotteryBank = new Button();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -201,9 +201,21 @@
             lotteryButton.Name = "lotteryButton";
             lotteryButton.Size = new Size(556, 27);
             lotteryButton.TabIndex = 46;
-            lotteryButton.Text = "users/lottery";
+            lotteryButton.Text = "me/lottery/draw";
             lotteryButton.UseVisualStyleBackColor = true;
             lotteryButton.Click += lotteryButton_Click;
+            // 
+            // getLotteryBank
+            // 
+            getLotteryBank.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            getLotteryBank.AutoSize = true;
+            getLotteryBank.Location = new Point(3, 333);
+            getLotteryBank.Name = "getLotteryBank";
+            getLotteryBank.Size = new Size(556, 27);
+            getLotteryBank.TabIndex = 47;
+            getLotteryBank.Text = "me/lottery/bank";
+            getLotteryBank.UseVisualStyleBackColor = true;
+            getLotteryBank.Click += getLotteryBank_Click;
             // 
             // moderatorLoginButton
             // 
@@ -324,18 +336,6 @@
             adminTransactionsButton.Text = "admin/transactions";
             adminTransactionsButton.UseVisualStyleBackColor = true;
             adminTransactionsButton.Click += adminTransactionsButton_Click;
-            // 
-            // getLotteryBank
-            // 
-            getLotteryBank.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            getLotteryBank.AutoSize = true;
-            getLotteryBank.Location = new Point(3, 333);
-            getLotteryBank.Name = "getLotteryBank";
-            getLotteryBank.Size = new Size(556, 27);
-            getLotteryBank.TabIndex = 47;
-            getLotteryBank.Text = "lottery/bank";
-            getLotteryBank.UseVisualStyleBackColor = true;
-            getLotteryBank.Click += getLotteryBank_Click;
             // 
             // Tester
             // 

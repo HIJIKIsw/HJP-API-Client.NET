@@ -91,7 +91,7 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public Task<ApiResponse<UserLotteryResponse>> Lottery(CancellationToken cancellationToken = default)
+        public Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default)
         {
             return this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
                 discordUserId: this.discordUserId,
@@ -105,7 +105,7 @@ namespace Hjp.Api.Client
         {
             return this.apiClientInternal.GetWithSignatureAsync<LotteryBankResponse>(
                 discordUserId: this.discordUserId,
-                route: "lottery/bank",
+                route: "me/lottery/bank",
                 query: null,
                 cancellationToken: cancellationToken);
         }

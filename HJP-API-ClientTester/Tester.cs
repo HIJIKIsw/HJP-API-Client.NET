@@ -445,7 +445,7 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var result = await this.hjpApiClient.UsersClient.Lottery();
+                var result = await this.hjpApiClient.UsersClient.DrawLottery();
                 Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
