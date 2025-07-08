@@ -41,7 +41,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "me",
                 query: null,
                 isIncludeNonce: true,
@@ -51,7 +51,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserBalanceResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "me/balance",
                 query: null,
                 isIncludeNonce: true,
@@ -61,7 +61,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<UserTransactionsResponse>> GetTransactionsAsync(UserTransactionsRequest? query = null, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserTransactionsResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "me/transactions",
                 query: query,
                 isIncludeNonce: true,
@@ -71,7 +71,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<UserStatsResponse>> GetStatsAsync(CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserStatsResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "me/stats",
                 query: null,
                 isIncludeNonce: true,
@@ -81,7 +81,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<UserDepositResponse>> DepositAsync(UserDepositRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserDepositResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "me/deposit",
                 body: request,
                 query: null,
@@ -92,7 +92,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<UserWithdrawResponse>> WithdrawAsync(UserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserWithdrawResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "me/withdraw",
                 body: request,
                 query: null,
@@ -103,7 +103,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<UserTransferResponse>> TransferAsync(UserTransferRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserTransferResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "me/transfer",
                 body: request,
                 query: null,
@@ -114,7 +114,7 @@ namespace Hjp.Api.Client
         public Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default)
         {
             return this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "me/lottery/draw",
                 body: null!,
                 query: null,
@@ -125,7 +125,7 @@ namespace Hjp.Api.Client
         public Task<ApiResponse<LotteryBankResponse>> GetLotteryBank(CancellationToken cancellationToken = default)
         {
             return this.apiClientInternal.GetWithSignatureAsync<LotteryBankResponse>(
-                signature: this.signature!,
+                signature: this.signature,
                 route: "lottery/bank",
                 query: null,
                 isIncludeNonce: true,
