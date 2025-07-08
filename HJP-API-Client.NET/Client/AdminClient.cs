@@ -6,19 +6,32 @@ using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
 using Hjp.Shared.Dto.Admin.Users.Search;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
+using Hjp.Shared.Dto.Auth;
+using Hjp.Shared.Enums;
 
 namespace Hjp.Api.Client
 {
     internal class AdminClient : IAdminClient
     {
-        private readonly string signature;
-
         private readonly ApiClientInternal apiClientInternal;
 
-        public AdminClient(ApiClientInternal apiClientInternal, string signature)
+        private string signature = null!;
+
+        public AdminClient(ApiClientInternal apiClientInternal)
         {
             this.apiClientInternal = apiClientInternal;
-            this.signature = signature;
+        }
+
+        public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
+        {
+            var request = new LoginRequest
+            {
+                AccessToken = accessToken,
+                AsPermissionTypeId = PermissionType.Admin
+            };
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
+            this.signature = result.Result?.Signature!;
+            return result;
         }
 
         public async Task<ApiResponse<AdminUserResponse>> GetUserProfileAsync(ulong discordUserId, CancellationToken cancellationToken = default)

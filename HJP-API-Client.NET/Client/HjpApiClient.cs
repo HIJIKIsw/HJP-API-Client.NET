@@ -5,7 +5,6 @@ using Hjp.Api.Client.Internal;
 using Hjp.Shared.Dto.Auth;
 using Hjp.Shared.Dto.System.Maintenance;
 using Hjp.Shared.Dto.System.Version;
-using Hjp.Shared.Enums;
 
 namespace Hjp.Api.Client
 {
@@ -83,17 +82,9 @@ namespace Hjp.Api.Client
         /// <param name="accessToken">アクセストークン</param>
         public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
         {
-            var request = new LoginRequest
-            {
-                AccessToken = accessToken,
-                AsPermissionTypeId = PermissionType.User
-            };
-            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
-            if (result.IsSuccess == true && result.Result != null)
-            {
-                this.usersClient = new(this.apiClientInternal, result.Result.Signature);
-            }
-
+            var usersClient = new UsersClient(this.apiClientInternal);
+            var result = await usersClient.LoginWithUserAsync(accessToken, cancellationToken);
+            this.usersClient = result.IsSuccess == true ? usersClient : null;
             return result;
         }
 
@@ -113,17 +104,9 @@ namespace Hjp.Api.Client
         /// </summary>
         public async Task<ApiResponse<LoginResponse>> LoginWithModeratorAsync(string accessToken, CancellationToken cancellationToken = default)
         {
-            var request = new LoginRequest
-            {
-                AccessToken = accessToken,
-                AsPermissionTypeId = PermissionType.Moderator
-            };
-            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
-            if (result.IsSuccess == true && result.Result != null)
-            {
-                this.moderatorClient = new(this.apiClientInternal, result.Result.Signature);
-            }
-
+            var moderatorClient = new ModeratorClient(this.apiClientInternal);
+            var result = await moderatorClient.LoginWithUserAsync(accessToken, cancellationToken);
+            this.moderatorClient = result.IsSuccess == true ? moderatorClient : null;
             return result;
         }
 
@@ -143,17 +126,9 @@ namespace Hjp.Api.Client
         /// </summary>
         public async Task<ApiResponse<LoginResponse>> LoginWithAdminAsync(string accessToken, CancellationToken cancellationToken = default)
         {
-            var request = new LoginRequest
-            {
-                AccessToken = accessToken,
-                AsPermissionTypeId = PermissionType.Admin
-            };
-            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
-            if (result.IsSuccess == true && result.Result != null)
-            {
-                this.adminClient = new(this.apiClientInternal, result.Result.Signature);
-            }
-
+            var adminClient = new AdminClient(this.apiClientInternal);
+            var result = await adminClient.LoginWithUserAsync(accessToken, cancellationToken);
+            this.adminClient = result.IsSuccess == true ? adminClient : null;
             return result;
         }
 

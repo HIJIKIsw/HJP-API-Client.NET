@@ -1,21 +1,34 @@
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
+using Hjp.Shared.Dto.Auth;
 using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
+using Hjp.Shared.Enums;
 
 namespace Hjp.Api.Client
 {
     internal class ModeratorClient : IModeratorClient
     {
-        private readonly string signature;
-
         private readonly ApiClientInternal apiClientInternal;
 
-        public ModeratorClient(ApiClientInternal apiClientInternal, string signature)
+        private string signature = null!;
+
+        public ModeratorClient(ApiClientInternal apiClientInternal)
         {
             this.apiClientInternal = apiClientInternal;
-            this.signature = signature;
+        }
+
+        public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
+        {
+            var request = new LoginRequest
+            {
+                AccessToken = accessToken,
+                AsPermissionTypeId = PermissionType.Moderator
+            };
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
+            this.signature = result.Result?.Signature!;
+            return result;
         }
 
         public async Task<ApiResponse<ModeratorUserRegisterResponse>> RegisterUserAsync(ModeratorUserRegisterRequest request, CancellationToken cancellationToken = default)
