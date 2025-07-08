@@ -12,6 +12,7 @@ namespace Hjp.Api.Client
     {
         private readonly ApiClientInternal apiClientInternal;
 
+        private string accessToken = null!;
         private string signature = null!;
 
         public ModeratorClient(ApiClientInternal apiClientInternal)
@@ -27,7 +28,16 @@ namespace Hjp.Api.Client
                 AsPermissionTypeId = PermissionType.Moderator
             };
             var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
-            this.signature = result.Result?.Signature!;
+            if (result.IsSuccess == true)
+            {
+                this.accessToken = accessToken;
+                this.signature = result.Result?.Signature!;
+            }
+            else
+            {
+                this.accessToken = null!;
+                this.signature = null!;
+            }
             return result;
         }
 
