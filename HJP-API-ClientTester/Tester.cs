@@ -7,7 +7,6 @@ using Hjp.Shared.Dto.Moderator.Users.Register;
 using Hjp.Shared.Dto.Users.Me.Deposit;
 using Hjp.Shared.Dto.Users.Me.Transfer;
 using Hjp.Shared.Dto.Users.Me.Withdraw;
-using System.Diagnostics;
 using System.Text.Json;
 
 namespace HJP_API_ClientTester
@@ -20,7 +19,7 @@ namespace HJP_API_ClientTester
         {
             this.InitializeComponent();
 
-            this.hjpApiClient = new HjpApiClient(AppSettings.ApiBaseUrl, AppSettings.ApiKey);
+            this.hjpApiClient = new HjpApiClient(AppSettings.ApiBaseUrl);
         }
 
         private void AppendLog(string message)

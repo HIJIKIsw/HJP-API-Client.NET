@@ -48,9 +48,9 @@ namespace Hjp.Api.Client
         /// </summary>
         /// <param name="baseUrl">APIのベースURL</param>
         /// <param name="apiKey">APIキー</param>
-        public HjpApiClient(string baseUrl, string apiKey)
+        public HjpApiClient(string baseUrl)
         {
-            this.apiClientInternal = new(baseUrl, apiKey);
+            this.apiClientInternal = new(baseUrl);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Hjp.Api.Client
         /// </summary>
         public async Task<ApiResponse<string>> PingAsync(CancellationToken cancellationToken = default)
         {
-            return await this.apiClientInternal.GetAsync<string>("system/ping", null, cancellationToken);
+            return await this.apiClientInternal.GetAsync<string>("system/ping", null, false, cancellationToken);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Hjp.Api.Client
         /// </summary>
         public async Task<ApiResponse<VersionResponse>> GetVersionAsync(CancellationToken cancellationToken = default)
         {
-            return await this.apiClientInternal.GetAsync<VersionResponse>("system/version", null, cancellationToken);
+            return await this.apiClientInternal.GetAsync<VersionResponse>("system/version", null, false, cancellationToken);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Hjp.Api.Client
         /// </summary>
         public async Task<ApiResponse<MaintenanceResponse>> GetMaintenanceStatusAsync(CancellationToken cancellationToken = default)
         {
-            return await this.apiClientInternal.GetAsync<MaintenanceResponse>("system/maintenance", null, cancellationToken);
+            return await this.apiClientInternal.GetAsync<MaintenanceResponse>("system/maintenance", null, false, cancellationToken);
         }
 
         /// <summary>
@@ -88,10 +88,10 @@ namespace Hjp.Api.Client
                 AccessToken = accessToken,
                 AsPermissionTypeId = PermissionType.User
             };
-            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, cancellationToken);
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
             if (result.IsSuccess == true && result.Result != null)
             {
-                this.usersClient = new(this.apiClientInternal, result.Result.DiscordUserId);
+                this.usersClient = new(this.apiClientInternal, result.Result.Signature);
             }
 
             return result;
@@ -118,10 +118,10 @@ namespace Hjp.Api.Client
                 AccessToken = accessToken,
                 AsPermissionTypeId = PermissionType.Moderator
             };
-            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, cancellationToken);
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
             if (result.IsSuccess == true && result.Result != null)
             {
-                this.moderatorClient = new(this.apiClientInternal, result.Result.DiscordUserId);
+                this.moderatorClient = new(this.apiClientInternal, result.Result.Signature);
             }
 
             return result;
@@ -148,10 +148,10 @@ namespace Hjp.Api.Client
                 AccessToken = accessToken,
                 AsPermissionTypeId = PermissionType.Admin
             };
-            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, cancellationToken);
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
             if (result.IsSuccess == true && result.Result != null)
             {
-                this.adminClient = new(this.apiClientInternal, result.Result.DiscordUserId);
+                this.adminClient = new(this.apiClientInternal, result.Result.Signature);
             }
 
             return result;

@@ -15,98 +15,107 @@ namespace Hjp.Api.Client
 {
     internal class UsersClient : IUsersClient
     {
-        private readonly ulong discordUserId;
+        private readonly string signature;
 
         private readonly ApiClientInternal apiClientInternal;
 
-        public UsersClient(ApiClientInternal apiClientInternal, ulong discordUserId)
+        public UsersClient(ApiClientInternal apiClientInternal, string signature)
         {
             this.apiClientInternal = apiClientInternal;
-            this.discordUserId = discordUserId;
+            this.signature = signature;
         }
 
         public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "me",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserBalanceResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "me/balance",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserTransactionsResponse>> GetTransactionsAsync(UserTransactionsRequest? query = null, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserTransactionsResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "me/transactions",
                 query: query,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserStatsResponse>> GetStatsAsync(CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<UserStatsResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "me/stats",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserDepositResponse>> DepositAsync(UserDepositRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserDepositResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "me/deposit",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserWithdrawResponse>> WithdrawAsync(UserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserWithdrawResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "me/withdraw",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserTransferResponse>> TransferAsync(UserTransferRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<UserTransferResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "me/transfer",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default)
         {
             return this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "me/lottery/draw",
                 body: null!,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public Task<ApiResponse<LotteryBankResponse>> GetLotteryBank(CancellationToken cancellationToken = default)
         {
             return this.apiClientInternal.GetWithSignatureAsync<LotteryBankResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "lottery/bank",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
     }

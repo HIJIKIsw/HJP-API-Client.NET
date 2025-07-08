@@ -11,22 +11,23 @@ namespace Hjp.Api.Client
 {
     internal class AdminClient : IAdminClient
     {
-        private readonly ulong discordUserId;
+        private readonly string signature;
 
         private readonly ApiClientInternal apiClientInternal;
 
-        public AdminClient(ApiClientInternal apiClientInternal, ulong discordUserId)
+        public AdminClient(ApiClientInternal apiClientInternal, string signature)
         {
             this.apiClientInternal = apiClientInternal;
-            this.discordUserId = discordUserId;
+            this.signature = signature;
         }
 
         public async Task<ApiResponse<AdminUserResponse>> GetUserProfileAsync(ulong discordUserId, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<AdminUserResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: $"admin/users/{discordUserId}",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
@@ -37,38 +38,42 @@ namespace Hjp.Api.Client
                 request = new AdminUserSearchRequest();
             }
             return await this.apiClientInternal.GetWithSignatureAsync<AdminUserSearchResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "admin/users/search",
                 query: request,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<AdminUserDepositResponse>> UserDepositAsync(ulong discordUserId, AdminUserDepositRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserDepositResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: $"admin/users/{discordUserId}/deposit",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<AdminUserWithdrawResponse>> UserWithdrawAsync(ulong discordUserId, AdminUserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserWithdrawResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: $"admin/users/{discordUserId}/withdraw",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<AdminTransactionsResponse>> GetTransactionsAsync(AdminTransactionsRequest? request = null, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.GetWithSignatureAsync<AdminTransactionsResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "admin/transactions",
                 query: request,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
     }

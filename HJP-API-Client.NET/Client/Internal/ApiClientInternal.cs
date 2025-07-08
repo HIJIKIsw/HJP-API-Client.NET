@@ -10,39 +10,39 @@ namespace Hjp.Api.Client.Internal
     internal class ApiClientInternal
     {
         private HttpClient httpClient;
-        private string apiKey;
 
         private static readonly JsonSerializerOptions jsonOptions = new() { PropertyNameCaseInsensitive = true };
         private static readonly Encoding postBodyEncoding = Encoding.UTF8;
         private static readonly string postBodyContentType = "application/json";
 
-        public ApiClientInternal(string baseUrl, string apiKey)
+        public ApiClientInternal(string baseUrl)
         {
             this.httpClient = new();
             this.httpClient.BaseAddress = new(baseUrl);
-            this.apiKey = apiKey;
         }
 
-        public async Task<ApiResponse<T>> GetAsync<T>(string route, object? query = null, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<T>> GetAsync<T>(string route, object? query = null, bool isIncludeNonce = true, CancellationToken cancellationToken = default)
         {
-            return await GetAsyncInternal<T>(route, query, null, cancellationToken);
+            var headers = RequestUtility.CreateRequestHeaders(isIncludeNonce, null);
+            return await GetAsyncInternal<T>(route, query, headers, cancellationToken);
         }
 
-        public async Task<ApiResponse<T>> PostAsync<T>(string route, object body, object? query = null, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<T>> PostAsync<T>(string route, object body, object? query = null, bool isIncludeNonce = true, CancellationToken cancellationToken = default)
         {
-            return await PostAsyncInternal<T>(route, query, null, body, cancellationToken);
+            var headers = RequestUtility.CreateRequestHeaders(isIncludeNonce, null);
+            return await PostAsyncInternal<T>(route, query, headers, body, cancellationToken);
         }
 
-        public async Task<ApiResponse<T>> GetWithSignatureAsync<T>(ulong discordUserId, string route, object? query = null, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<T>> GetWithSignatureAsync<T>(string signature, string route, object? query = null, bool isIncludeNonce = true, CancellationToken cancellationToken = default)
         {
-            var signature = RequestUtility.CreateSignatureHeaders(discordUserId, this.apiKey);
-            return await GetAsyncInternal<T>(route, query, signature, cancellationToken);
+            var headers = RequestUtility.CreateRequestHeaders(isIncludeNonce, signature);
+            return await GetAsyncInternal<T>(route, query, headers, cancellationToken);
         }
 
-        public async Task<ApiResponse<T>> PostWithSignatureAsync<T>(ulong discordUserId, string route, object body, object? query = null, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<T>> PostWithSignatureAsync<T>(string signature, string route, object body, object? query = null, bool isIncludeNonce = true, CancellationToken cancellationToken = default)
         {
-            var signature = RequestUtility.CreateSignatureHeaders(discordUserId, this.apiKey);
-            return await PostAsyncInternal<T>(route, query, signature, body, cancellationToken);
+            var headers = RequestUtility.CreateRequestHeaders(isIncludeNonce, signature);
+            return await PostAsyncInternal<T>(route, query, headers, body, cancellationToken);
         }
 
         // 以下ヘルパーメソッド
