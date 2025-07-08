@@ -69,7 +69,19 @@ namespace Hjp.Api.Client.Internal
                     await response.Content.ReadAsStringAsync(cancellationToken));
             }
 
-            var result = await response.Content.ReadFromJsonAsync<T>(ApiClientInternal.jsonOptions, cancellationToken);
+
+            T? result;
+            if (typeof(T) == typeof(string))
+            {
+                // HACK: 生のstringを返したい場合もある
+                object raw = await response.Content.ReadAsStringAsync(cancellationToken);
+                result = (T)raw;
+            }
+            else
+            {
+                result = await response.Content.ReadFromJsonAsync<T>(ApiClientInternal.jsonOptions, cancellationToken);
+            }
+
             if (result == null)
             {
                 throw new InvalidOperationException(Messages.Erros.EmptyResponseBody);
@@ -103,7 +115,17 @@ namespace Hjp.Api.Client.Internal
                     await response.Content.ReadAsStringAsync(cancellationToken));
             }
 
-            var result = await response.Content.ReadFromJsonAsync<T>(ApiClientInternal.jsonOptions, cancellationToken);
+            T? result;
+            if (typeof(T) == typeof(string))
+            {
+                // HACK: 生のstringを返したい場合もある
+                object raw = await response.Content.ReadAsStringAsync(cancellationToken);
+                result = (T)raw;
+            }
+            else
+            {
+                result = await response.Content.ReadFromJsonAsync<T>(ApiClientInternal.jsonOptions, cancellationToken);
+            }
             if (result == null)
             {
                 throw new InvalidOperationException(Messages.Erros.EmptyResponseBody);
