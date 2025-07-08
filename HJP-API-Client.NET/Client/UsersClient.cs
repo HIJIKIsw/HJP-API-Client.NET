@@ -12,6 +12,7 @@ using Hjp.Shared.Dto.Routes.Users.Me.Lottery;
 using Hjp.Shared.Dto.Routes.Lottery;
 using Hjp.Shared.Dto.Auth;
 using Hjp.Shared.Enums;
+using Hjp.Api.Client.Utilities;
 
 namespace Hjp.Api.Client
 {
@@ -27,7 +28,7 @@ namespace Hjp.Api.Client
             this.apiClientInternal = apiClientInternal;
         }
 
-        public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
         {
             var request = new LoginRequest
             {
@@ -48,8 +49,20 @@ namespace Hjp.Api.Client
             return result;
         }
 
+        private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
+        {
+            var jwtPayload = JwtDecoder.DecodePayload(this.signature);
+            if (jwtPayload.IsExpired() == false)
+            {
+                return;
+            }
+            await this.LoginAsync(this.accessToken, cancellationToken);
+        }
+
         public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<UserResponse>(
                 signature: this.signature,
                 route: "me",
@@ -60,6 +73,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<UserBalanceResponse>(
                 signature: this.signature,
                 route: "me/balance",
@@ -70,6 +85,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserTransactionsResponse>> GetTransactionsAsync(UserTransactionsRequest? query = null, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<UserTransactionsResponse>(
                 signature: this.signature,
                 route: "me/transactions",
@@ -80,6 +97,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserStatsResponse>> GetStatsAsync(CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<UserStatsResponse>(
                 signature: this.signature,
                 route: "me/stats",
@@ -90,6 +109,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserDepositResponse>> DepositAsync(UserDepositRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<UserDepositResponse>(
                 signature: this.signature,
                 route: "me/deposit",
@@ -101,6 +122,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserWithdrawResponse>> WithdrawAsync(UserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<UserWithdrawResponse>(
                 signature: this.signature,
                 route: "me/withdraw",
@@ -112,6 +135,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserTransferResponse>> TransferAsync(UserTransferRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<UserTransferResponse>(
                 signature: this.signature,
                 route: "me/transfer",
@@ -121,9 +146,11 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default)
         {
-            return this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
                 signature: this.signature,
                 route: "me/lottery/draw",
                 body: null!,
@@ -132,9 +159,11 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public Task<ApiResponse<LotteryBankResponse>> GetLotteryBank(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LotteryBankResponse>> GetLotteryBank(CancellationToken cancellationToken = default)
         {
-            return this.apiClientInternal.GetWithSignatureAsync<LotteryBankResponse>(
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.GetWithSignatureAsync<LotteryBankResponse>(
                 signature: this.signature,
                 route: "lottery/bank",
                 query: null,

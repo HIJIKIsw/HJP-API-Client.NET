@@ -1,6 +1,7 @@
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
+using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Admin.Transactions;
 using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
@@ -23,7 +24,7 @@ namespace Hjp.Api.Client
             this.apiClientInternal = apiClientInternal;
         }
 
-        public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
         {
             var request = new LoginRequest
             {
@@ -44,8 +45,20 @@ namespace Hjp.Api.Client
             return result;
         }
 
+        private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
+        {
+            var jwtPayload = JwtDecoder.DecodePayload(this.signature);
+            if (jwtPayload.IsExpired() == false)
+            {
+                return;
+            }
+            await this.LoginAsync(this.accessToken, cancellationToken);
+        }
+
         public async Task<ApiResponse<AdminUserResponse>> GetUserProfileAsync(ulong discordUserId, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<AdminUserResponse>(
                 signature: this.signature,
                 route: $"admin/users/{discordUserId}",
@@ -56,6 +69,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminUserSearchResponse>> SearchUserAsync(AdminUserSearchRequest? request = null, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             if (request == null)
             {
                 request = new AdminUserSearchRequest();
@@ -70,6 +85,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminUserDepositResponse>> UserDepositAsync(ulong discordUserId, AdminUserDepositRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserDepositResponse>(
                 signature: this.signature,
                 route: $"admin/users/{discordUserId}/deposit",
@@ -81,6 +98,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminUserWithdrawResponse>> UserWithdrawAsync(ulong discordUserId, AdminUserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserWithdrawResponse>(
                 signature: this.signature,
                 route: $"admin/users/{discordUserId}/withdraw",
@@ -92,6 +111,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminTransactionsResponse>> GetTransactionsAsync(AdminTransactionsRequest? request = null, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<AdminTransactionsResponse>(
                 signature: this.signature,
                 route: "admin/transactions",

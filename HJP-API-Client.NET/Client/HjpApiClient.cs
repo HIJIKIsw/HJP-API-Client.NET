@@ -83,7 +83,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
         {
             var usersClient = new UsersClient(this.apiClientInternal);
-            var result = await usersClient.LoginWithUserAsync(accessToken, cancellationToken);
+            var result = await usersClient.LoginAsync(accessToken, cancellationToken);
             this.usersClient = result.IsSuccess == true ? usersClient : null;
             return result;
         }
@@ -105,7 +105,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<LoginResponse>> LoginWithModeratorAsync(string accessToken, CancellationToken cancellationToken = default)
         {
             var moderatorClient = new ModeratorClient(this.apiClientInternal);
-            var result = await moderatorClient.LoginWithUserAsync(accessToken, cancellationToken);
+            var result = await moderatorClient.LoginAsync(accessToken, cancellationToken);
             this.moderatorClient = result.IsSuccess == true ? moderatorClient : null;
             return result;
         }
@@ -127,7 +127,7 @@ namespace Hjp.Api.Client
         public async Task<ApiResponse<LoginResponse>> LoginWithAdminAsync(string accessToken, CancellationToken cancellationToken = default)
         {
             var adminClient = new AdminClient(this.apiClientInternal);
-            var result = await adminClient.LoginWithUserAsync(accessToken, cancellationToken);
+            var result = await adminClient.LoginAsync(accessToken, cancellationToken);
             this.adminClient = result.IsSuccess == true ? adminClient : null;
             return result;
         }

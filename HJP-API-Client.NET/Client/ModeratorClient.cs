@@ -1,6 +1,7 @@
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
+using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Auth;
 using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
@@ -20,7 +21,7 @@ namespace Hjp.Api.Client
             this.apiClientInternal = apiClientInternal;
         }
 
-        public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
         {
             var request = new LoginRequest
             {
@@ -41,8 +42,20 @@ namespace Hjp.Api.Client
             return result;
         }
 
+        private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
+        {
+            var jwtPayload = JwtDecoder.DecodePayload(this.signature);
+            if (jwtPayload.IsExpired() == false)
+            {
+                return;
+            }
+            await this.LoginAsync(this.accessToken, cancellationToken);
+        }
+
         public async Task<ApiResponse<ModeratorUserRegisterResponse>> RegisterUserAsync(ModeratorUserRegisterRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<ModeratorUserRegisterResponse>(
                 signature: this.signature,
                 route: "moderator/users/register",
@@ -54,6 +67,8 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<ModeratorUserAccessTokenResetResponse>> ResetUserAccessTokenAsync(ulong discordUserId, ModeratorUserAccessTokenResetRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<ModeratorUserAccessTokenResetResponse>(
                 signature: this.signature,
                 route: $"moderator/users/{discordUserId}/access-token/reset",
