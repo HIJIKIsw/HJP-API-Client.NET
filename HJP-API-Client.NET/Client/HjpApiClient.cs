@@ -2,10 +2,9 @@ using Hjp.Api.Client.Common;
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
-using Hjp.Shared.Dto.Admin.Login;
+using Hjp.Shared.Dto.Auth;
 using Hjp.Shared.Dto.Maintenance;
-using Hjp.Shared.Dto.Moderator.Login;
-using Hjp.Shared.Dto.Users.Login;
+using Hjp.Shared.Enums;
 
 namespace Hjp.Api.Client
 {
@@ -58,16 +57,21 @@ namespace Hjp.Api.Client
         /// </summary>
         public async Task<ApiResponse<MaintenanceResponse>> GetMaintenanceStatusAsync(CancellationToken cancellationToken = default)
         {
-            return await this.apiClientInternal.GetAsync<MaintenanceResponse>("maintenance", null, cancellationToken);
+            return await this.apiClientInternal.GetAsync<MaintenanceResponse>("system/maintenance", null, cancellationToken);
         }
 
         /// <summary>
         /// ユーザとしてログイン
         /// </summary>
         /// <param name="accessToken">アクセストークン</param>
-        public async Task<ApiResponse<UserLoginResponse>> LoginWithUserAsync(UserLoginRequest request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
         {
-            var result = await this.apiClientInternal.PostAsync<UserLoginResponse>("users/login", request, null, cancellationToken);
+            var request = new LoginRequest
+            {
+                AccessToken = accessToken,
+                AsPermissionTypeId = PermissionType.User
+            };
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, cancellationToken);
             if (result.IsSuccess == true && result.Result != null)
             {
                 this.usersClient = new(this.apiClientInternal, result.Result.DiscordUserId);
@@ -90,9 +94,14 @@ namespace Hjp.Api.Client
         /// <summary>
         /// モデレータとしてログイン
         /// </summary>
-        public async Task<ApiResponse<ModeratorLoginResponse>> LoginWithModeratorAsync(ModeratorLoginRequest request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LoginResponse>> LoginWithModeratorAsync(string accessToken, CancellationToken cancellationToken = default)
         {
-            var result = await this.apiClientInternal.PostAsync<ModeratorLoginResponse>("moderator/login", request, null, cancellationToken);
+            var request = new LoginRequest
+            {
+                AccessToken = accessToken,
+                AsPermissionTypeId = PermissionType.Moderator
+            };
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, cancellationToken);
             if (result.IsSuccess == true && result.Result != null)
             {
                 this.moderatorClient = new(this.apiClientInternal, result.Result.DiscordUserId);
@@ -115,9 +124,14 @@ namespace Hjp.Api.Client
         /// <summary>
         /// 管理者としてログイン
         /// </summary>
-        public async Task<ApiResponse<AdminLoginResponse>> LoginWithAdminAsync(AdminLoginRequest request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LoginResponse>> LoginWithAdminAsync(string accessToken, CancellationToken cancellationToken = default)
         {
-            var result = await this.apiClientInternal.PostAsync<AdminLoginResponse>("admin/login", request, null, cancellationToken);
+            var request = new LoginRequest
+            {
+                AccessToken = accessToken,
+                AsPermissionTypeId = PermissionType.Admin
+            };
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, cancellationToken);
             if (result.IsSuccess == true && result.Result != null)
             {
                 this.adminClient = new(this.apiClientInternal, result.Result.DiscordUserId);

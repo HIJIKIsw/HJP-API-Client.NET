@@ -1,13 +1,10 @@
 using Hjp.Api.Client;
 using Hjp.Api.Client.Tester;
-using Hjp.Shared.Dto.Admin.Login;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
-using Hjp.Shared.Dto.Moderator.Login;
 using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
 using Hjp.Shared.Dto.Users.Me.Deposit;
-using Hjp.Shared.Dto.Users.Login;
 using Hjp.Shared.Dto.Users.Me.Transfer;
 using Hjp.Shared.Dto.Users.Me.Withdraw;
 using System.Diagnostics;
@@ -32,8 +29,7 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var request = new UserLoginRequest() { AccessToken = AppSettings.AccessToken };
-                var result = await this.hjpApiClient.LoginWithUserAsync(request);
+                var result = await this.hjpApiClient.LoginWithUserAsync(AppSettings.AccessToken);
                 Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
@@ -201,11 +197,7 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var request = new ModeratorLoginRequest()
-                {
-                    AccessToken = AppSettings.AccessToken
-                };
-                var result = await this.hjpApiClient.LoginWithModeratorAsync(request);
+                var result = await this.hjpApiClient.LoginWithModeratorAsync(AppSettings.AccessToken);
                 Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
@@ -301,8 +293,7 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var request = new AdminLoginRequest() { AccessToken = AppSettings.AccessToken };
-                var result = await this.hjpApiClient.LoginWithAdminAsync(request);
+                var result = await this.hjpApiClient.LoginWithAdminAsync(AppSettings.AccessToken);
                 Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
