@@ -1,7 +1,10 @@
 using System.Collections;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using Hjp.Api.Client.Common;
+using Hjp.Shared.Constants;
 
 namespace Hjp.Api.Client.Utilities
 {
@@ -41,21 +44,21 @@ namespace Hjp.Api.Client.Utilities
             return sb.ToString();
         }
 
-        public static Dictionary<string, string> CreateSignatureHeaders(ulong discordUserId, string apiKey)
+        public static Dictionary<string, string> CreateRequestHeaders(bool isIncludeNonce = true, string? signature = null)
         {
             var result = new Dictionary<string, string>();
 
-            var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var nonce = Guid.NewGuid().ToString("N");
+            if (isIncludeNonce == true)
+            {
+                var nonce = Guid.NewGuid().ToString("N");
+                result.Add(ApiConstants.HeaderNames.Nonce, nonce);
+            }
 
-            var message = $"{discordUserId}:{timestamp}:{nonce}";
-            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(apiKey));
-            var signature = Convert.ToHexString(hmac.ComputeHash(Encoding.UTF8.GetBytes(message)));
-
-            result.Add(Constants.DiscordUserIdHeaderName, discordUserId.ToString()!);
-            result.Add(Constants.NonceHeaderName, nonce);
-            result.Add(Constants.TimestampHeaderName, timestamp.ToString()!);
-            result.Add(Constants.SignatureHeaderName, signature);
+            if (signature != null)
+            {
+                var headerName = HttpRequestHeader.Authorization.ToString();
+                result.Add(headerName, new AuthenticationHeaderValue(ApiConstants.AuthenticationScheme, signature).ToString());
+            }
 
             return result;
         }

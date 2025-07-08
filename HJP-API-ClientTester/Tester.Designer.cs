@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             flowLayoutPanel1 = new FlowLayoutPanel();
+            pingButton = new Button();
             getMaintenanceStatusButton = new Button();
+            getVersionButton = new Button();
             loginButton = new Button();
             getProfileButton = new Button();
             getBalanceButton = new Button();
@@ -42,7 +44,6 @@
             getLotteryBank = new Button();
             moderatorLoginButton = new Button();
             moderatorRegisterUserButton = new Button();
-            moderatorGetAccessTokenButton = new Button();
             moderatorResetAccessTokenButton = new Button();
             adminLoginButton = new Button();
             adminGetUserProfileButton = new Button();
@@ -50,14 +51,17 @@
             adminUserDepositButton = new Button();
             adminUserWithdrawButton = new Button();
             adminTransactionsButton = new Button();
+            logTextBox = new TextBox();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.Controls.Add(pingButton);
             flowLayoutPanel1.Controls.Add(getMaintenanceStatusButton);
+            flowLayoutPanel1.Controls.Add(getVersionButton);
             flowLayoutPanel1.Controls.Add(loginButton);
             flowLayoutPanel1.Controls.Add(getProfileButton);
             flowLayoutPanel1.Controls.Add(getBalanceButton);
@@ -70,7 +74,6 @@
             flowLayoutPanel1.Controls.Add(getLotteryBank);
             flowLayoutPanel1.Controls.Add(moderatorLoginButton);
             flowLayoutPanel1.Controls.Add(moderatorRegisterUserButton);
-            flowLayoutPanel1.Controls.Add(moderatorGetAccessTokenButton);
             flowLayoutPanel1.Controls.Add(moderatorResetAccessTokenButton);
             flowLayoutPanel1.Controls.Add(adminLoginButton);
             flowLayoutPanel1.Controls.Add(adminGetUserProfileButton);
@@ -81,29 +84,56 @@
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(12, 12);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(584, 466);
+            flowLayoutPanel1.Size = new Size(334, 743);
             flowLayoutPanel1.TabIndex = 1;
             flowLayoutPanel1.WrapContents = false;
+            // 
+            // pingButton
+            // 
+            pingButton.AutoSize = true;
+            pingButton.Dock = DockStyle.Top;
+            pingButton.Location = new Point(3, 3);
+            pingButton.Name = "pingButton";
+            pingButton.Size = new Size(293, 25);
+            pingButton.TabIndex = 48;
+            pingButton.Text = "system/ping";
+            pingButton.UseVisualStyleBackColor = true;
+            pingButton.Click += pingButton_Click;
             // 
             // getMaintenanceStatusButton
             // 
             getMaintenanceStatusButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             getMaintenanceStatusButton.AutoSize = true;
-            getMaintenanceStatusButton.Location = new Point(3, 3);
+            getMaintenanceStatusButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            getMaintenanceStatusButton.Location = new Point(3, 34);
             getMaintenanceStatusButton.Name = "getMaintenanceStatusButton";
-            getMaintenanceStatusButton.Size = new Size(556, 27);
+            getMaintenanceStatusButton.Size = new Size(293, 25);
             getMaintenanceStatusButton.TabIndex = 45;
-            getMaintenanceStatusButton.Text = "maintenance";
+            getMaintenanceStatusButton.Text = "system/maintenance";
             getMaintenanceStatusButton.UseVisualStyleBackColor = true;
             getMaintenanceStatusButton.Click += getMaintenanceStatusButton_Click;
+            // 
+            // getVersionButton
+            // 
+            getVersionButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            getVersionButton.AutoSize = true;
+            getVersionButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            getVersionButton.Location = new Point(3, 65);
+            getVersionButton.Name = "getVersionButton";
+            getVersionButton.Size = new Size(293, 25);
+            getVersionButton.TabIndex = 49;
+            getVersionButton.Text = "system/version";
+            getVersionButton.UseVisualStyleBackColor = true;
+            getVersionButton.Click += getVersionButton_Click;
             // 
             // loginButton
             // 
             loginButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             loginButton.AutoSize = true;
-            loginButton.Location = new Point(3, 36);
+            loginButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            loginButton.Location = new Point(3, 96);
             loginButton.Name = "loginButton";
-            loginButton.Size = new Size(556, 27);
+            loginButton.Size = new Size(293, 25);
             loginButton.TabIndex = 27;
             loginButton.Text = "users/login";
             loginButton.UseVisualStyleBackColor = true;
@@ -113,9 +143,10 @@
             // 
             getProfileButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             getProfileButton.AutoSize = true;
-            getProfileButton.Location = new Point(3, 69);
+            getProfileButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            getProfileButton.Location = new Point(3, 127);
             getProfileButton.Name = "getProfileButton";
-            getProfileButton.Size = new Size(556, 27);
+            getProfileButton.Size = new Size(293, 25);
             getProfileButton.TabIndex = 28;
             getProfileButton.Text = "users/me";
             getProfileButton.UseVisualStyleBackColor = true;
@@ -125,9 +156,10 @@
             // 
             getBalanceButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             getBalanceButton.AutoSize = true;
-            getBalanceButton.Location = new Point(3, 102);
+            getBalanceButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            getBalanceButton.Location = new Point(3, 158);
             getBalanceButton.Name = "getBalanceButton";
-            getBalanceButton.Size = new Size(556, 27);
+            getBalanceButton.Size = new Size(293, 25);
             getBalanceButton.TabIndex = 29;
             getBalanceButton.Text = "users/balance";
             getBalanceButton.UseVisualStyleBackColor = true;
@@ -137,9 +169,10 @@
             // 
             getTransactionsButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             getTransactionsButton.AutoSize = true;
-            getTransactionsButton.Location = new Point(3, 135);
+            getTransactionsButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            getTransactionsButton.Location = new Point(3, 189);
             getTransactionsButton.Name = "getTransactionsButton";
-            getTransactionsButton.Size = new Size(556, 27);
+            getTransactionsButton.Size = new Size(293, 25);
             getTransactionsButton.TabIndex = 30;
             getTransactionsButton.Text = "users/transactions";
             getTransactionsButton.UseVisualStyleBackColor = true;
@@ -149,9 +182,10 @@
             // 
             getStatsButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             getStatsButton.AutoSize = true;
-            getStatsButton.Location = new Point(3, 168);
+            getStatsButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            getStatsButton.Location = new Point(3, 220);
             getStatsButton.Name = "getStatsButton";
-            getStatsButton.Size = new Size(556, 27);
+            getStatsButton.Size = new Size(293, 25);
             getStatsButton.TabIndex = 31;
             getStatsButton.Text = "users/stats";
             getStatsButton.UseVisualStyleBackColor = true;
@@ -161,9 +195,10 @@
             // 
             depositButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             depositButton.AutoSize = true;
-            depositButton.Location = new Point(3, 201);
+            depositButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            depositButton.Location = new Point(3, 251);
             depositButton.Name = "depositButton";
-            depositButton.Size = new Size(556, 27);
+            depositButton.Size = new Size(293, 25);
             depositButton.TabIndex = 32;
             depositButton.Text = "users/deposit";
             depositButton.UseVisualStyleBackColor = true;
@@ -173,9 +208,10 @@
             // 
             withdrawButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             withdrawButton.AutoSize = true;
-            withdrawButton.Location = new Point(3, 234);
+            withdrawButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            withdrawButton.Location = new Point(3, 282);
             withdrawButton.Name = "withdrawButton";
-            withdrawButton.Size = new Size(556, 27);
+            withdrawButton.Size = new Size(293, 25);
             withdrawButton.TabIndex = 33;
             withdrawButton.Text = "users/withdraw";
             withdrawButton.UseVisualStyleBackColor = true;
@@ -185,9 +221,10 @@
             // 
             transferButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             transferButton.AutoSize = true;
-            transferButton.Location = new Point(3, 267);
+            transferButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            transferButton.Location = new Point(3, 313);
             transferButton.Name = "transferButton";
-            transferButton.Size = new Size(556, 27);
+            transferButton.Size = new Size(293, 25);
             transferButton.TabIndex = 34;
             transferButton.Text = "users/transfer";
             transferButton.UseVisualStyleBackColor = true;
@@ -197,9 +234,10 @@
             // 
             lotteryButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             lotteryButton.AutoSize = true;
-            lotteryButton.Location = new Point(3, 300);
+            lotteryButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            lotteryButton.Location = new Point(3, 344);
             lotteryButton.Name = "lotteryButton";
-            lotteryButton.Size = new Size(556, 27);
+            lotteryButton.Size = new Size(293, 25);
             lotteryButton.TabIndex = 46;
             lotteryButton.Text = "me/lottery/draw";
             lotteryButton.UseVisualStyleBackColor = true;
@@ -209,11 +247,12 @@
             // 
             getLotteryBank.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             getLotteryBank.AutoSize = true;
-            getLotteryBank.Location = new Point(3, 333);
+            getLotteryBank.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            getLotteryBank.Location = new Point(3, 375);
             getLotteryBank.Name = "getLotteryBank";
-            getLotteryBank.Size = new Size(556, 27);
+            getLotteryBank.Size = new Size(293, 25);
             getLotteryBank.TabIndex = 47;
-            getLotteryBank.Text = "me/lottery/bank";
+            getLotteryBank.Text = "lottery/bank";
             getLotteryBank.UseVisualStyleBackColor = true;
             getLotteryBank.Click += getLotteryBank_Click;
             // 
@@ -221,9 +260,10 @@
             // 
             moderatorLoginButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             moderatorLoginButton.AutoSize = true;
-            moderatorLoginButton.Location = new Point(3, 366);
+            moderatorLoginButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            moderatorLoginButton.Location = new Point(3, 406);
             moderatorLoginButton.Name = "moderatorLoginButton";
-            moderatorLoginButton.Size = new Size(556, 27);
+            moderatorLoginButton.Size = new Size(293, 25);
             moderatorLoginButton.TabIndex = 38;
             moderatorLoginButton.Text = "moderator/login";
             moderatorLoginButton.UseVisualStyleBackColor = true;
@@ -233,33 +273,23 @@
             // 
             moderatorRegisterUserButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             moderatorRegisterUserButton.AutoSize = true;
-            moderatorRegisterUserButton.Location = new Point(3, 399);
+            moderatorRegisterUserButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            moderatorRegisterUserButton.Location = new Point(3, 437);
             moderatorRegisterUserButton.Name = "moderatorRegisterUserButton";
-            moderatorRegisterUserButton.Size = new Size(556, 27);
+            moderatorRegisterUserButton.Size = new Size(293, 25);
             moderatorRegisterUserButton.TabIndex = 35;
             moderatorRegisterUserButton.Text = "moderator/users/register";
             moderatorRegisterUserButton.UseVisualStyleBackColor = true;
             moderatorRegisterUserButton.Click += moderatorRegisterUserButton_Click;
             // 
-            // moderatorGetAccessTokenButton
-            // 
-            moderatorGetAccessTokenButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            moderatorGetAccessTokenButton.AutoSize = true;
-            moderatorGetAccessTokenButton.Location = new Point(3, 432);
-            moderatorGetAccessTokenButton.Name = "moderatorGetAccessTokenButton";
-            moderatorGetAccessTokenButton.Size = new Size(556, 27);
-            moderatorGetAccessTokenButton.TabIndex = 36;
-            moderatorGetAccessTokenButton.Text = "moderator/users/{discordUserId}/access-token";
-            moderatorGetAccessTokenButton.UseVisualStyleBackColor = true;
-            moderatorGetAccessTokenButton.Click += moderatorGetAccessTokenButton_Click;
-            // 
             // moderatorResetAccessTokenButton
             // 
             moderatorResetAccessTokenButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             moderatorResetAccessTokenButton.AutoSize = true;
-            moderatorResetAccessTokenButton.Location = new Point(3, 465);
+            moderatorResetAccessTokenButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            moderatorResetAccessTokenButton.Location = new Point(3, 468);
             moderatorResetAccessTokenButton.Name = "moderatorResetAccessTokenButton";
-            moderatorResetAccessTokenButton.Size = new Size(556, 27);
+            moderatorResetAccessTokenButton.Size = new Size(293, 25);
             moderatorResetAccessTokenButton.TabIndex = 37;
             moderatorResetAccessTokenButton.Text = "moderator/users/{discordUserId}/access-token/reset";
             moderatorResetAccessTokenButton.UseVisualStyleBackColor = true;
@@ -269,9 +299,10 @@
             // 
             adminLoginButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminLoginButton.AutoSize = true;
-            adminLoginButton.Location = new Point(3, 498);
+            adminLoginButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            adminLoginButton.Location = new Point(3, 499);
             adminLoginButton.Name = "adminLoginButton";
-            adminLoginButton.Size = new Size(556, 27);
+            adminLoginButton.Size = new Size(293, 25);
             adminLoginButton.TabIndex = 39;
             adminLoginButton.Text = "admin/login";
             adminLoginButton.UseVisualStyleBackColor = true;
@@ -281,9 +312,10 @@
             // 
             adminGetUserProfileButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminGetUserProfileButton.AutoSize = true;
-            adminGetUserProfileButton.Location = new Point(3, 531);
+            adminGetUserProfileButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            adminGetUserProfileButton.Location = new Point(3, 530);
             adminGetUserProfileButton.Name = "adminGetUserProfileButton";
-            adminGetUserProfileButton.Size = new Size(556, 27);
+            adminGetUserProfileButton.Size = new Size(293, 25);
             adminGetUserProfileButton.TabIndex = 40;
             adminGetUserProfileButton.Text = "admin/users/{discordUserId}";
             adminGetUserProfileButton.UseVisualStyleBackColor = true;
@@ -293,9 +325,10 @@
             // 
             searchUserButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             searchUserButton.AutoSize = true;
-            searchUserButton.Location = new Point(3, 564);
+            searchUserButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            searchUserButton.Location = new Point(3, 561);
             searchUserButton.Name = "searchUserButton";
-            searchUserButton.Size = new Size(556, 27);
+            searchUserButton.Size = new Size(293, 25);
             searchUserButton.TabIndex = 44;
             searchUserButton.Text = "admin/users/search";
             searchUserButton.UseVisualStyleBackColor = true;
@@ -305,9 +338,10 @@
             // 
             adminUserDepositButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminUserDepositButton.AutoSize = true;
-            adminUserDepositButton.Location = new Point(3, 597);
+            adminUserDepositButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            adminUserDepositButton.Location = new Point(3, 592);
             adminUserDepositButton.Name = "adminUserDepositButton";
-            adminUserDepositButton.Size = new Size(556, 27);
+            adminUserDepositButton.Size = new Size(293, 25);
             adminUserDepositButton.TabIndex = 41;
             adminUserDepositButton.Text = "admin/users/{discordUserId}/deposit";
             adminUserDepositButton.UseVisualStyleBackColor = true;
@@ -317,9 +351,10 @@
             // 
             adminUserWithdrawButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminUserWithdrawButton.AutoSize = true;
-            adminUserWithdrawButton.Location = new Point(3, 630);
+            adminUserWithdrawButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            adminUserWithdrawButton.Location = new Point(3, 623);
             adminUserWithdrawButton.Name = "adminUserWithdrawButton";
-            adminUserWithdrawButton.Size = new Size(556, 27);
+            adminUserWithdrawButton.Size = new Size(293, 25);
             adminUserWithdrawButton.TabIndex = 42;
             adminUserWithdrawButton.Text = "admin/users/{discordUserId}/withdraw";
             adminUserWithdrawButton.UseVisualStyleBackColor = true;
@@ -329,25 +364,37 @@
             // 
             adminTransactionsButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminTransactionsButton.AutoSize = true;
-            adminTransactionsButton.Location = new Point(3, 663);
+            adminTransactionsButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            adminTransactionsButton.Location = new Point(3, 654);
             adminTransactionsButton.Name = "adminTransactionsButton";
-            adminTransactionsButton.Size = new Size(556, 27);
+            adminTransactionsButton.Size = new Size(293, 25);
             adminTransactionsButton.TabIndex = 43;
             adminTransactionsButton.Text = "admin/transactions";
             adminTransactionsButton.UseVisualStyleBackColor = true;
             adminTransactionsButton.Click += adminTransactionsButton_Click;
             // 
+            // logTextBox
+            // 
+            logTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            logTextBox.Location = new Point(352, 12);
+            logTextBox.Multiline = true;
+            logTextBox.Name = "logTextBox";
+            logTextBox.Size = new Size(913, 743);
+            logTextBox.TabIndex = 2;
+            // 
             // Tester
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(608, 490);
+            ClientSize = new Size(1277, 767);
+            Controls.Add(logTextBox);
             Controls.Add(flowLayoutPanel1);
             Name = "Tester";
             Text = "Form1";
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -362,7 +409,6 @@
         private Button withdrawButton;
         private Button transferButton;
         private Button moderatorRegisterUserButton;
-        private Button moderatorGetAccessTokenButton;
         private Button moderatorResetAccessTokenButton;
         private Button moderatorLoginButton;
         private Button adminLoginButton;
@@ -374,5 +420,8 @@
         private Button getMaintenanceStatusButton;
         private Button lotteryButton;
         private Button getLotteryBank;
+        private Button pingButton;
+        private Button getVersionButton;
+        private TextBox logTextBox;
     }
 }

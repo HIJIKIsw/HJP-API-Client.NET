@@ -1,16 +1,12 @@
 using Hjp.Api.Client;
 using Hjp.Api.Client.Tester;
-using Hjp.Shared.Dto.Admin.Login;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
-using Hjp.Shared.Dto.Moderator.Login;
 using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
 using Hjp.Shared.Dto.Users.Me.Deposit;
-using Hjp.Shared.Dto.Users.Login;
 using Hjp.Shared.Dto.Users.Me.Transfer;
 using Hjp.Shared.Dto.Users.Me.Withdraw;
-using System.Diagnostics;
 using System.Text.Json;
 
 namespace HJP_API_ClientTester
@@ -23,7 +19,14 @@ namespace HJP_API_ClientTester
         {
             this.InitializeComponent();
 
-            this.hjpApiClient = new HjpApiClient(AppSettings.ApiBaseUrl, AppSettings.ApiKey);
+            this.hjpApiClient = new HjpApiClient(AppSettings.ApiBaseUrl);
+        }
+
+        private void AppendLog(string message)
+        {
+            this.logTextBox.AppendText($"{message}\r\n");
+            this.logTextBox.SelectionStart = this.logTextBox.Text.Length;
+            this.logTextBox.ScrollToCaret();
         }
 
         private async void loginButton_Click(object sender, EventArgs e)
@@ -32,13 +35,12 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var request = new UserLoginRequest() { AccessToken = AppSettings.AccessToken };
-                var result = await this.hjpApiClient.LoginWithUserAsync(request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                var result = await this.hjpApiClient.LoginWithUserAsync(AppSettings.AccessToken);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -53,11 +55,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.UsersClient.GetProfileAsync();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -72,11 +74,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.UsersClient.GetBalanceAsync();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -91,11 +93,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.UsersClient.GetTransactionsAsync();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -110,11 +112,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.UsersClient.GetStatsAsync();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -134,11 +136,11 @@ namespace HJP_API_ClientTester
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                 };
                 var result = await this.hjpApiClient.UsersClient.DepositAsync(request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -158,11 +160,11 @@ namespace HJP_API_ClientTester
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                 };
                 var result = await this.hjpApiClient.UsersClient.WithdrawAsync(request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -183,11 +185,11 @@ namespace HJP_API_ClientTester
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                 };
                 var result = await this.hjpApiClient.UsersClient.TransferAsync(request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -201,16 +203,12 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var request = new ModeratorLoginRequest()
-                {
-                    AccessToken = AppSettings.AccessToken
-                };
-                var result = await this.hjpApiClient.LoginWithModeratorAsync(request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                var result = await this.hjpApiClient.LoginWithModeratorAsync(AppSettings.AccessToken);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -239,30 +237,11 @@ namespace HJP_API_ClientTester
                 {
                     this.lastCreatedDiscordUserId = discordUserId;
                 }
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
-            }
-            finally
-            {
-                button.Enabled = true;
-            }
-        }
-
-        private async void moderatorGetAccessTokenButton_Click(object sender, EventArgs e)
-        {
-            var button = (Button)sender;
-            button.Enabled = false;
-            try
-            {
-                var result = await this.hjpApiClient.ModeratorClient.GetUserAccessTokenAsync(this.lastCreatedDiscordUserId);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -283,11 +262,11 @@ namespace HJP_API_ClientTester
                     AvatarUrl = $"https://test.by.tester/{now}",
                 };
                 var result = await this.hjpApiClient.ModeratorClient.ResetUserAccessTokenAsync(this.lastCreatedDiscordUserId, request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -301,13 +280,12 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var request = new AdminLoginRequest() { AccessToken = AppSettings.AccessToken };
-                var result = await this.hjpApiClient.LoginWithAdminAsync(request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                var result = await this.hjpApiClient.LoginWithAdminAsync(AppSettings.AccessToken);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -322,11 +300,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.AdminClient.GetUserProfileAsync(this.lastCreatedDiscordUserId);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -346,11 +324,11 @@ namespace HJP_API_ClientTester
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()
                 };
                 var result = await this.hjpApiClient.AdminClient.UserDepositAsync(this.lastCreatedDiscordUserId, request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -370,11 +348,11 @@ namespace HJP_API_ClientTester
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()
                 };
                 var result = await this.hjpApiClient.AdminClient.UserWithdrawAsync(this.lastCreatedDiscordUserId, request);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -389,11 +367,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.AdminClient.GetTransactionsAsync();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -408,11 +386,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.AdminClient.SearchUserAsync();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -427,11 +405,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.GetMaintenanceStatusAsync();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -446,11 +424,11 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.UsersClient.DrawLottery();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {
@@ -465,11 +443,49 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.UsersClient.GetLotteryBank();
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error: " + ex.Message);
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void getVersionButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.GetVersionAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void pingButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.PingAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
             }
             finally
             {

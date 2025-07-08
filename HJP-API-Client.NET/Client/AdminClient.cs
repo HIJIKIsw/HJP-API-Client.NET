@@ -1,74 +1,123 @@
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
+using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Admin.Transactions;
 using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
 using Hjp.Shared.Dto.Admin.Users.Search;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
+using Hjp.Shared.Dto.Auth;
+using Hjp.Shared.Enums;
 
 namespace Hjp.Api.Client
 {
     internal class AdminClient : IAdminClient
     {
-        private readonly ulong discordUserId;
-
         private readonly ApiClientInternal apiClientInternal;
 
-        public AdminClient(ApiClientInternal apiClientInternal, ulong discordUserId)
+        private string accessToken = null!;
+        private string signature = null!;
+
+        public AdminClient(ApiClientInternal apiClientInternal)
         {
             this.apiClientInternal = apiClientInternal;
-            this.discordUserId = discordUserId;
+        }
+
+        public async Task<ApiResponse<LoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
+        {
+            var request = new LoginRequest
+            {
+                AccessToken = accessToken,
+                AsPermissionTypeId = PermissionType.Admin
+            };
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
+            if (result.IsSuccess == true)
+            {
+                this.accessToken = accessToken;
+                this.signature = result.Result?.Signature!;
+            }
+            else
+            {
+                this.accessToken = null!;
+                this.signature = null!;
+            }
+            return result;
+        }
+
+        private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
+        {
+            var jwtPayload = JwtDecoder.DecodePayload(this.signature);
+            if (jwtPayload.IsExpired() == false)
+            {
+                return;
+            }
+            await this.LoginAsync(this.accessToken, cancellationToken);
         }
 
         public async Task<ApiResponse<AdminUserResponse>> GetUserProfileAsync(ulong discordUserId, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<AdminUserResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: $"admin/users/{discordUserId}",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<AdminUserSearchResponse>> SearchUserAsync(AdminUserSearchRequest? request = null, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             if (request == null)
             {
                 request = new AdminUserSearchRequest();
             }
             return await this.apiClientInternal.GetWithSignatureAsync<AdminUserSearchResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "admin/users/search",
                 query: request,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<AdminUserDepositResponse>> UserDepositAsync(ulong discordUserId, AdminUserDepositRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserDepositResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: $"admin/users/{discordUserId}/deposit",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<AdminUserWithdrawResponse>> UserWithdrawAsync(ulong discordUserId, AdminUserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserWithdrawResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: $"admin/users/{discordUserId}/withdraw",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<AdminTransactionsResponse>> GetTransactionsAsync(AdminTransactionsRequest? request = null, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<AdminTransactionsResponse>(
-                discordUserId: this.discordUserId,
+                signature: this.signature,
                 route: "admin/transactions",
                 query: request,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
     }

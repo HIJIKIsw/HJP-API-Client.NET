@@ -10,103 +10,164 @@ using Hjp.Shared.Dto.Users.Me.Transfer;
 using Hjp.Shared.Dto.Users.Me.Withdraw;
 using Hjp.Shared.Dto.Routes.Users.Me.Lottery;
 using Hjp.Shared.Dto.Routes.Lottery;
+using Hjp.Shared.Dto.Auth;
+using Hjp.Shared.Enums;
+using Hjp.Api.Client.Utilities;
 
 namespace Hjp.Api.Client
 {
     internal class UsersClient : IUsersClient
     {
-        private readonly ulong discordUserId;
-
         private readonly ApiClientInternal apiClientInternal;
 
-        public UsersClient(ApiClientInternal apiClientInternal, ulong discordUserId)
+        private string accessToken = null!;
+        private string signature = null!;
+
+        public UsersClient(ApiClientInternal apiClientInternal)
         {
             this.apiClientInternal = apiClientInternal;
-            this.discordUserId = discordUserId;
+        }
+
+        public async Task<ApiResponse<LoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
+        {
+            var request = new LoginRequest
+            {
+                AccessToken = accessToken,
+                AsPermissionTypeId = PermissionType.User
+            };
+            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
+            if (result.IsSuccess == true)
+            {
+                this.accessToken = accessToken;
+                this.signature = result.Result?.Signature!;
+            }
+            else
+            {
+                this.accessToken = null!;
+                this.signature = null!;
+            }
+            return result;
+        }
+
+        private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
+        {
+            var jwtPayload = JwtDecoder.DecodePayload(this.signature);
+            if (jwtPayload.IsExpired() == false)
+            {
+                return;
+            }
+            await this.LoginAsync(this.accessToken, cancellationToken);
         }
 
         public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<UserResponse>(
-                discordUserId: this.discordUserId,
-                route: "users/me",
+                signature: this.signature,
+                route: "me",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<UserBalanceResponse>(
-                discordUserId: this.discordUserId,
-                route: "users/me/balance",
+                signature: this.signature,
+                route: "me/balance",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserTransactionsResponse>> GetTransactionsAsync(UserTransactionsRequest? query = null, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<UserTransactionsResponse>(
-                discordUserId: this.discordUserId,
-                route: "users/me/transactions",
+                signature: this.signature,
+                route: "me/transactions",
                 query: query,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserStatsResponse>> GetStatsAsync(CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.GetWithSignatureAsync<UserStatsResponse>(
-                discordUserId: this.discordUserId,
-                route: "users/me/stats",
+                signature: this.signature,
+                route: "me/stats",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserDepositResponse>> DepositAsync(UserDepositRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<UserDepositResponse>(
-                discordUserId: this.discordUserId,
-                route: "users/me/deposit",
+                signature: this.signature,
+                route: "me/deposit",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserWithdrawResponse>> WithdrawAsync(UserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<UserWithdrawResponse>(
-                discordUserId: this.discordUserId,
-                route: "users/me/withdraw",
+                signature: this.signature,
+                route: "me/withdraw",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
         public async Task<ApiResponse<UserTransferResponse>> TransferAsync(UserTransferRequest request, CancellationToken cancellationToken = default)
         {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
             return await this.apiClientInternal.PostWithSignatureAsync<UserTransferResponse>(
-                discordUserId: this.discordUserId,
-                route: "users/me/transfer",
+                signature: this.signature,
+                route: "me/transfer",
                 body: request,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
-        public Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default)
         {
-            return this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
-                discordUserId: this.discordUserId,
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
+                signature: this.signature,
                 route: "me/lottery/draw",
                 body: null!,
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
 
-        public Task<ApiResponse<LotteryBankResponse>> GetLotteryBank(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LotteryBankResponse>> GetLotteryBank(CancellationToken cancellationToken = default)
         {
-            return this.apiClientInternal.GetWithSignatureAsync<LotteryBankResponse>(
-                discordUserId: this.discordUserId,
-                route: "me/lottery/bank",
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.GetWithSignatureAsync<LotteryBankResponse>(
+                signature: this.signature,
+                route: "lottery/bank",
                 query: null,
+                isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
     }
