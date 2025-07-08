@@ -3,7 +3,8 @@ using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
 using Hjp.Shared.Dto.Auth;
-using Hjp.Shared.Dto.Maintenance;
+using Hjp.Shared.Dto.System.Maintenance;
+using Hjp.Shared.Dto.System.Version;
 using Hjp.Shared.Enums;
 
 namespace Hjp.Api.Client
@@ -50,6 +51,22 @@ namespace Hjp.Api.Client
         public HjpApiClient(string baseUrl, string apiKey)
         {
             this.apiClientInternal = new(baseUrl, apiKey);
+        }
+
+        /// <summary>
+        /// Pingを実行
+        /// </summary>
+        public async Task<ApiResponse<string>> PingAsync(CancellationToken cancellationToken = default)
+        {
+            return await this.apiClientInternal.GetAsync<string>("system/ping", null, cancellationToken);
+        }
+
+        /// <summary>
+        /// APIのバージョンを取得
+        /// </summary>
+        public async Task<ApiResponse<VersionResponse>> GetVersionAsync(CancellationToken cancellationToken = default)
+        {
+            return await this.apiClientInternal.GetAsync<VersionResponse>("system/version", null, cancellationToken);
         }
 
         /// <summary>
