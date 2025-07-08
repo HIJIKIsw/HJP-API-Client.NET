@@ -243,25 +243,6 @@ namespace HJP_API_ClientTester
             }
         }
 
-        private async void moderatorGetAccessTokenButton_Click(object sender, EventArgs e)
-        {
-            var button = (Button)sender;
-            button.Enabled = false;
-            try
-            {
-                var result = await this.hjpApiClient.ModeratorClient.GetUserAccessTokenAsync(this.lastCreatedDiscordUserId);
-                Debug.WriteLine($"{button.Name}: " + JsonSerializer.Serialize(result));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error: " + ex.Message);
-            }
-            finally
-            {
-                button.Enabled = true;
-            }
-        }
-
         private async void moderatorResetAccessTokenButton_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;

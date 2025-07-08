@@ -28,16 +28,6 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        [Obsolete("Use ResetUserAccessTokenAsync instead.")]
-        public async Task<ApiResponse<ModeratorUserAccessTokenResetResponse>> GetUserAccessTokenAsync(ulong discordUserId, CancellationToken cancellationToken = default)
-        {
-            return await this.apiClientInternal.GetWithSignatureAsync<ModeratorUserAccessTokenResetResponse>(
-                discordUserId: this.discordUserId,
-                route: $"moderator/users/{discordUserId}/access-token",
-                query: null,
-                cancellationToken: cancellationToken);
-        }
-
         public async Task<ApiResponse<ModeratorUserAccessTokenResetResponse>> ResetUserAccessTokenAsync(ulong discordUserId, ModeratorUserAccessTokenResetRequest request, CancellationToken cancellationToken = default)
         {
             return await this.apiClientInternal.PostWithSignatureAsync<ModeratorUserAccessTokenResetResponse>(

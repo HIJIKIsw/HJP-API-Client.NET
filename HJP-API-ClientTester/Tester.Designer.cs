@@ -251,7 +251,6 @@
             moderatorGetAccessTokenButton.TabIndex = 36;
             moderatorGetAccessTokenButton.Text = "moderator/users/{discordUserId}/access-token";
             moderatorGetAccessTokenButton.UseVisualStyleBackColor = true;
-            moderatorGetAccessTokenButton.Click += moderatorGetAccessTokenButton_Click;
             // 
             // moderatorResetAccessTokenButton
             // 
