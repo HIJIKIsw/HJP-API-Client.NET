@@ -337,6 +337,7 @@
             pingButton.TabIndex = 48;
             pingButton.Text = "system/ping";
             pingButton.UseVisualStyleBackColor = true;
+            pingButton.Click += pingButton_Click;
             // 
             // getVersionButton
             // 
@@ -348,6 +349,7 @@
             getVersionButton.TabIndex = 49;
             getVersionButton.Text = "system/version";
             getVersionButton.UseVisualStyleBackColor = true;
+            getVersionButton.Click += getVersionButton_Click;
             // 
             // Tester
             // 
