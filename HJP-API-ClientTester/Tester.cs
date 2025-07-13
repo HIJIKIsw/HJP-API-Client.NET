@@ -423,7 +423,7 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var result = await this.hjpApiClient.UsersClient.DrawLottery();
+                var result = await this.hjpApiClient.UsersClient.DrawLotteryAsync();
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
@@ -442,7 +442,7 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var result = await this.hjpApiClient.UsersClient.GetLotteryBank();
+                var result = await this.hjpApiClient.UsersClient.GetLotteryBankAsync();
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)

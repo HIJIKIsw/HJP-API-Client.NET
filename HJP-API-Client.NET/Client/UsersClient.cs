@@ -146,7 +146,7 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(CancellationToken cancellationToken = default)
         {
             await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
 
@@ -159,7 +159,7 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<LotteryBankResponse>> GetLotteryBank(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LotteryBankResponse>> GetLotteryBankAsync(CancellationToken cancellationToken = default)
         {
             await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
 

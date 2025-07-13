@@ -63,12 +63,12 @@ namespace Hjp.Api.Client.Interfaces
         /// くじを引く
         /// </summary>
         /// <remarks>先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください</remarks>
-        Task<ApiResponse<UserLotteryResponse>> DrawLottery(CancellationToken cancellationToken = default);
+        Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// くじの積立金を取得する
         /// </summary>
         /// <remarks>先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください</remarks>
-        Task<ApiResponse<LotteryBankResponse>> GetLotteryBank(CancellationToken cancellationToken = default);
+        Task<ApiResponse<LotteryBankResponse>> GetLotteryBankAsync(CancellationToken cancellationToken = default);
     }
 }
