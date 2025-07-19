@@ -1,13 +1,14 @@
 using Hjp.Api.Client.Dto;
-using Hjp.Shared.Dto.Users.Me.Balance;
-using Hjp.Shared.Dto.Users.Me.Deposit;
-using Hjp.Shared.Dto.Users.Me;
-using Hjp.Shared.Dto.Users.Me.Stats;
-using Hjp.Shared.Dto.Users.Me.Transactions;
-using Hjp.Shared.Dto.Users.Me.Transfer;
-using Hjp.Shared.Dto.Users.Me.Withdraw;
-using Hjp.Shared.Dto.Routes.Users.Me.Lottery;
+using Hjp.Shared.Dto.Me.Balance;
+using Hjp.Shared.Dto.Me.Deposit;
+using Hjp.Shared.Dto.Me;
+using Hjp.Shared.Dto.Me.Stats;
+using Hjp.Shared.Dto.Me.Transactions;
+using Hjp.Shared.Dto.Me.Transfer;
+using Hjp.Shared.Dto.Me.Withdraw;
+using Hjp.Shared.Dto.Me.Lottery;
 using Hjp.Shared.Dto.Routes.Lottery;
+using Hjp.Shared.Dto.Users.Search;
 
 namespace Hjp.Api.Client.Interfaces
 {
@@ -70,5 +71,14 @@ namespace Hjp.Api.Client.Interfaces
         /// </summary>
         /// <remarks>先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください</remarks>
         Task<ApiResponse<LotteryBankResponse>> GetLotteryBankAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// ユーザを検索
+        /// </summary>
+        /// <remarks>
+        /// 先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください
+        /// 検索結果からシステムユーザは除外されます
+        /// </remarks>
+        Task<ApiResponse<UserSearchResponse>> SearchUserAsync(UserSearchRequest? request = null, CancellationToken cancellationToken = default);
     }
 }

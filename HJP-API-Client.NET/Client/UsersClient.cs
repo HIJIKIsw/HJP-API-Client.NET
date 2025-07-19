@@ -1,18 +1,19 @@
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
-using Hjp.Shared.Dto.Users.Me.Balance;
-using Hjp.Shared.Dto.Users.Me.Deposit;
-using Hjp.Shared.Dto.Users.Me;
-using Hjp.Shared.Dto.Users.Me.Stats;
-using Hjp.Shared.Dto.Users.Me.Transactions;
-using Hjp.Shared.Dto.Users.Me.Transfer;
-using Hjp.Shared.Dto.Users.Me.Withdraw;
-using Hjp.Shared.Dto.Routes.Users.Me.Lottery;
+using Hjp.Shared.Dto.Me.Balance;
+using Hjp.Shared.Dto.Me.Deposit;
+using Hjp.Shared.Dto.Me;
+using Hjp.Shared.Dto.Me.Stats;
+using Hjp.Shared.Dto.Me.Transactions;
+using Hjp.Shared.Dto.Me.Transfer;
+using Hjp.Shared.Dto.Me.Withdraw;
 using Hjp.Shared.Dto.Routes.Lottery;
 using Hjp.Shared.Dto.Auth;
 using Hjp.Shared.Enums;
 using Hjp.Api.Client.Utilities;
+using Hjp.Shared.Dto.Me.Lottery;
+using Hjp.Shared.Dto.Users.Search;
 
 namespace Hjp.Api.Client
 {
@@ -167,6 +168,22 @@ namespace Hjp.Api.Client
                 signature: this.signature,
                 route: "lottery/bank",
                 query: null,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<UserSearchResponse>> SearchUserAsync(UserSearchRequest? request = null, CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            if (request == null)
+            {
+                request = new UserSearchRequest();
+            }
+            return await this.apiClientInternal.GetWithSignatureAsync<UserSearchResponse>(
+                signature: this.signature,
+                route: "users/search",
+                query: request,
                 isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
