@@ -4,9 +4,9 @@ using Hjp.Shared.Dto.Admin.Users.Deposit;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
 using Hjp.Shared.Dto.Moderator.Users.AccessToken.Reset;
 using Hjp.Shared.Dto.Moderator.Users.Register;
-using Hjp.Shared.Dto.Users.Me.Deposit;
-using Hjp.Shared.Dto.Users.Me.Transfer;
-using Hjp.Shared.Dto.Users.Me.Withdraw;
+using Hjp.Shared.Dto.Me.Deposit;
+using Hjp.Shared.Dto.Me.Transfer;
+using Hjp.Shared.Dto.Me.Withdraw;
 using System.Text.Json;
 
 namespace HJP_API_ClientTester
@@ -379,7 +379,7 @@ namespace HJP_API_ClientTester
             }
         }
 
-        private async void searchUserButton_Click(object sender, EventArgs e)
+        private async void adminSearchUserButton_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
             button.Enabled = false;
@@ -481,6 +481,25 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.PingAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void searchUserButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.UsersClient.SearchUserAsync();
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
