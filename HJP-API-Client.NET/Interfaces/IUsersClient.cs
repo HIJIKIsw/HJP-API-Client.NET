@@ -7,7 +7,7 @@ using Hjp.Shared.Dto.Me.Transactions;
 using Hjp.Shared.Dto.Me.Transfer;
 using Hjp.Shared.Dto.Me.Withdraw;
 using Hjp.Shared.Dto.Me.Lottery;
-using Hjp.Shared.Dto.Routes.Lottery;
+using Hjp.Shared.Dto.Lottery;
 using Hjp.Shared.Dto.Users.Search;
 
 namespace Hjp.Api.Client.Interfaces
