@@ -70,5 +70,20 @@ namespace Hjp.Api.Client.Interfaces
         /// </summary>
         /// <remarks>検索結果からシステムユーザは除外されます</remarks>
         Task<ApiResponse<UserSearchResponse>> SearchUserAsync(UserSearchRequest? request = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 全お知らせの件数を取得
+        /// </summary>
+        Task<ApiResponse<NoticesCountResponse>> GetNoticesCountAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// お知らせの一覧を取得
+        /// </summary>
+        Task<ApiResponse<NoticesResponse>> GetNoticeListAsync(NoticesRequest? request = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// お知らせの詳細情報を取得
+        /// </summary>
+        Task<ApiResponse<NoticeDetailResponse>> GetNoticeDetailAsync(int noticeId, CancellationToken cancellationToken = default);
     }
 }

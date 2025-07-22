@@ -1,4 +1,6 @@
 using Hjp.Api.Client.Dto;
+using Hjp.Shared.Dto.Admin.Notices;
+using Hjp.Shared.Dto.Admin.Notices.Count;
 using Hjp.Shared.Dto.Admin.Transactions;
 using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
@@ -40,5 +42,35 @@ namespace Hjp.Api.Client.Interfaces
         /// </summary>
         /// <param name="request">取得フィルタ条件</param>
         Task<ApiResponse<AdminTransactionsResponse>> GetTransactionsAsync(AdminTransactionsRequest? request = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 全お知らせの件数を取得
+        /// </summary>
+        Task<ApiResponse<AdminNoticesCountResponse>> GetNoticesCountAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// お知らせの一覧を取得
+        /// </summary>
+        Task<ApiResponse<AdminNoticesResponse>> GetNoticeListAsync(AdminNoticesRequest? request = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// お知らせの詳細情報を取得
+        /// </summary>
+        Task<ApiResponse<AdminNoticeDetailResponse>> GetNoticeDetailAsync(int noticeId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 新規お知らせを作成
+        /// </summary>
+        Task<ApiResponse<AdminNoticePostResponse>> PostNoticeAsync(AdminNoticePostRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// お知らせを更新
+        /// </summary>
+        Task<ApiResponse<AdminNoticeEditResponse>> EditNoticeAsync(int noticeId, AdminNoticesEditRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// お知らせを削除
+        /// </summary>
+        Task<ApiResponse<AdminNoticesRemoveResponse>> DeleteNoticeAsync(int noticeId, CancellationToken cancellationToken = default);
     }
 }

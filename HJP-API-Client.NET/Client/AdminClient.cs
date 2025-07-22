@@ -2,6 +2,8 @@ using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
 using Hjp.Api.Client.Utilities;
+using Hjp.Shared.Dto.Admin.Notices;
+using Hjp.Shared.Dto.Admin.Notices.Count;
 using Hjp.Shared.Dto.Admin.Transactions;
 using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
@@ -117,6 +119,79 @@ namespace Hjp.Api.Client
                 signature: this.signature,
                 route: "admin/transactions",
                 query: request,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminNoticesCountResponse>> GetNoticesCountAsync(CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.GetWithSignatureAsync<AdminNoticesCountResponse>(
+                signature: this.signature,
+                route: "admin/notices/count",
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminNoticesResponse>> GetNoticeListAsync(AdminNoticesRequest? request = null, CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            if (request == null)
+            {
+                request = new();
+            }
+            return await this.apiClientInternal.GetWithSignatureAsync<AdminNoticesResponse>(
+                signature: this.signature,
+                route: "admin/notices",
+                query: request,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminNoticeDetailResponse>> GetNoticeDetailAsync(int noticeId, CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.GetWithSignatureAsync<AdminNoticeDetailResponse>(
+                signature: this.signature,
+                route: $"admin/notices/{noticeId}",
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminNoticePostResponse>> PostNoticeAsync(AdminNoticePostRequest request, CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.PostWithSignatureAsync<AdminNoticePostResponse>(
+                signature: this.signature,
+                route: "admin/notices",
+                body: request,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminNoticeEditResponse>> EditNoticeAsync(int noticeId, AdminNoticesEditRequest request, CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.PutWithSignatureAsync<AdminNoticeEditResponse>(
+                signature: this.signature,
+                route: $"admin/notices/{noticeId}",
+                body: request,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminNoticesRemoveResponse>> DeleteNoticeAsync(int noticeId, CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.DeleteWithSignatureAsync<AdminNoticesRemoveResponse>(
+                signature: this.signature,
+                route: $"admin/notices/{noticeId}",
                 isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }

@@ -14,6 +14,8 @@ using Hjp.Shared.Enums;
 using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Me.Lottery;
 using Hjp.Shared.Dto.Users.Search;
+using Hjp.Shared.Dto.Notices.Count;
+using Hjp.Shared.Dto.Notices;
 
 namespace Hjp.Api.Client
 {
@@ -50,6 +52,7 @@ namespace Hjp.Api.Client
             return result;
         }
 
+        // TODO: 全てのメソッドの先頭にこのメソッドを呼び出すのが決まりとなっていて汚いので共通化する方法を考える
         private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
         {
             var jwtPayload = JwtDecoder.DecodePayload(this.signature);
@@ -184,6 +187,44 @@ namespace Hjp.Api.Client
                 signature: this.signature,
                 route: "users/search",
                 query: request,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<NoticesCountResponse>> GetNoticesCountAsync(CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.GetWithSignatureAsync<NoticesCountResponse>(
+                signature: this.signature,
+                route: "notices/count",
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<NoticesResponse>> GetNoticeListAsync(NoticesRequest? request = null, CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            if (request == null)
+            {
+                request = new();
+            }
+            return await this.apiClientInternal.GetWithSignatureAsync<NoticesResponse>(
+                signature: this.signature,
+                route: "notices",
+                query: request,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<NoticeDetailResponse>> GetNoticeDetailAsync(int noticeId, CancellationToken cancellationToken = default)
+        {
+            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+
+            return await this.apiClientInternal.GetWithSignatureAsync<NoticeDetailResponse>(
+                signature: this.signature,
+                route: $"notices/{noticeId}",
                 isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }
