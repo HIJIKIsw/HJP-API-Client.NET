@@ -8,6 +8,7 @@ using Hjp.Shared.Dto.Me.Deposit;
 using Hjp.Shared.Dto.Me.Transfer;
 using Hjp.Shared.Dto.Me.Withdraw;
 using System.Text.Json;
+using Hjp.Shared.Dto.Admin.Notices;
 
 namespace HJP_API_ClientTester
 {
@@ -500,6 +501,185 @@ namespace HJP_API_ClientTester
             try
             {
                 var result = await this.hjpApiClient.UsersClient.SearchUserAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void getNoticeListButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.UsersClient.GetNoticeListAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void getNoticesCountButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.UsersClient.GetNoticesCountAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void getNoticeDetailButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.UsersClient.GetNoticeDetailAsync(this.lastCreatedNoticeId);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminGetNoticeListButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.AdminClient.GetNoticeListAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        // HACK: ここにメンバを書くべきではないが便宜上こうする
+        private int lastCreatedNoticeId = 8;
+
+        private async void adminPostNoticeButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                var request = new AdminNoticePostRequest() { Title = $"TestByTester: {now}", Body = $"TestByTester: {now}" };
+                var result = await this.hjpApiClient.AdminClient.PostNoticeAsync(request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+                this.lastCreatedNoticeId = result.Result!.Id;
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminGetNoticesCountButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.AdminClient.GetNoticesCountAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminGetNoticeDetailButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.AdminClient.GetNoticeDetailAsync(this.lastCreatedNoticeId);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminEditNoticeButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                var request = new AdminNoticeEditRequest() { Title = $"TestByTester: {now}", Body = $"TestByTester: {now}", IsRemoved = false };
+                var result = await this.hjpApiClient.AdminClient.EditNoticeAsync(this.lastCreatedNoticeId, request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminDeleteNoticeButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.AdminClient.RemoveNoticeAsync(this.lastCreatedNoticeId);
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
