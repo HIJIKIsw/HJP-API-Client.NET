@@ -36,7 +36,7 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var result = await this.hjpApiClient.LoginWithUserAsync(AppSettings.AccessToken);
+                var result = await this.hjpApiClient.LoginAsync(AppSettings.AccessToken);
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
@@ -198,24 +198,6 @@ namespace HJP_API_ClientTester
             }
         }
 
-        private async void moderatorLoginButton_Click(object sender, EventArgs e)
-        {
-            var button = (Button)sender;
-            button.Enabled = false;
-            try
-            {
-                var result = await this.hjpApiClient.LoginWithModeratorAsync(AppSettings.AccessToken);
-                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
-            }
-            catch (Exception ex)
-            {
-                this.AppendLog("Error: " + ex.Message);
-            }
-            finally
-            {
-                button.Enabled = true;
-            }
-        }
 
         // HACK: ここにメンバを書くべきではないが便宜上こうする
         private ulong lastCreatedDiscordUserId = 555;
@@ -263,25 +245,6 @@ namespace HJP_API_ClientTester
                     AvatarUrl = $"https://test.by.tester/{now}",
                 };
                 var result = await this.hjpApiClient.ModeratorClient.ResetUserAccessTokenAsync(this.lastCreatedDiscordUserId, request);
-                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
-            }
-            catch (Exception ex)
-            {
-                this.AppendLog("Error: " + ex.Message);
-            }
-            finally
-            {
-                button.Enabled = true;
-            }
-        }
-
-        private async void adminLoginButton_Click(object sender, EventArgs e)
-        {
-            var button = (Button)sender;
-            button.Enabled = false;
-            try
-            {
-                var result = await this.hjpApiClient.LoginWithAdminAsync(AppSettings.AccessToken);
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
