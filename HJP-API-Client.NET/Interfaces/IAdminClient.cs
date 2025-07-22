@@ -13,14 +13,12 @@ namespace Hjp.Api.Client.Interfaces
         /// ユーザ情報を取得
         /// </summary>
         /// <param name="discordUserId">取得対象DiscordユーザID</param>
-        /// <remarks>先に <see cref="IAdminClient.GetUserProfileAsync(string, CancellationToken)"/> を実行してください</remarks>
         Task<ApiResponse<AdminUserResponse>> GetUserProfileAsync(ulong discordUserId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// ユーザを検索
         /// </summary>
         /// <param name="request">検索条件 (省略時はすべて取得)</param>
-        /// <remarks>先に <see cref="IAdminClient.GetUserProfileAsync(string, CancellationToken)"/> を実行してください</remarks>
         Task<ApiResponse<AdminUserSearchResponse>> SearchUserAsync(AdminUserSearchRequest? request = null, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -28,7 +26,6 @@ namespace Hjp.Api.Client.Interfaces
         /// </summary>
         /// <param name="discordUserId">入金対象DiscordユーザID</param>
         /// <param name="request">入金情報</param>
-        /// <remarks>先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください</remarks>
         Task<ApiResponse<AdminUserDepositResponse>> UserDepositAsync(ulong discordUserId, AdminUserDepositRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -36,14 +33,12 @@ namespace Hjp.Api.Client.Interfaces
         /// </summary>
         /// <param name="discordUserId">出金対象DiscordユーザID</param>
         /// <param name="request">出金情報</param>
-        /// <remarks>先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください</remarks>
         Task<ApiResponse<AdminUserWithdrawResponse>> UserWithdrawAsync(ulong discordUserId, AdminUserWithdrawRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 取引情報を取得
         /// </summary>
         /// <param name="request">取得フィルタ条件</param>
-        /// <remarks>先に <see cref="HjpApiClient.LoginWithUserAsync"/> を実行してください</remarks>
         Task<ApiResponse<AdminTransactionsResponse>> GetTransactionsAsync(AdminTransactionsRequest? request = null, CancellationToken cancellationToken = default);
     }
 }

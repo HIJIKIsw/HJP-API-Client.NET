@@ -10,7 +10,6 @@ namespace Hjp.Api.Client.Interfaces
         /// ユーザ登録
         /// </summary>
         /// <param name="request">登録ユーザ情報</param>
-        /// <remarks>先に <see cref="HjpApiClient.LoginWithModeratorAsync"/> を実行してください</remarks>
         Task<ApiResponse<ModeratorUserRegisterResponse>> RegisterUserAsync(ModeratorUserRegisterRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -18,7 +17,6 @@ namespace Hjp.Api.Client.Interfaces
         /// (既存の場合は再作成、なければ新規作成する)
         /// </summary>
         /// <param name="discordUserId">アクセストークンを生成するユーザのDiscordユーザID</param>
-        /// <remarks>先に <see cref="HjpApiClient.LoginWithModeratorAsync"/> を実行してください。</remarks>
         Task<ApiResponse<ModeratorUserAccessTokenResetResponse>> ResetUserAccessTokenAsync(ulong discordUserId, ModeratorUserAccessTokenResetRequest request, CancellationToken cancellationToken = default);
     }
 }

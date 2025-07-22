@@ -28,6 +28,7 @@ namespace Hjp.Api.Client
         /// <summary>
         /// モデレータ関連APIのクライアント
         /// </summary>
+        /// <remarks>先に <see cref="LoginWithModeratorAsync(string, CancellationToken)"/> を実行してください。それまでは null を返します。</remarks>
         public IModeratorClient ModeratorClient => this.moderatorClient ?? throw new InvalidOperationException(Messages.Erros.NotLoggedInWithModerator);
         /// <summary>
         /// モデレータでログインしているか
@@ -36,6 +37,7 @@ namespace Hjp.Api.Client
         /// <summary>
         /// 管理者関連APIのクライアント
         /// </summary>
+        /// <remarks>先に <see cref="LoginWithAdminAsync(string, CancellationToken)"/> を実行してください。それまでは null を返します。</remarks>
         public IAdminClient AdminClient => this.adminClient ?? throw new InvalidOperationException(Messages.Erros.NotLoggedInWithAdmin);
         /// <summary>
         /// 管理者でログインしているか
