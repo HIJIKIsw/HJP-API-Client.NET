@@ -173,7 +173,7 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<AdminNoticeEditResponse>> EditNoticeAsync(int noticeId, AdminNoticesEditRequest request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<AdminNoticeEditResponse>> EditNoticeAsync(int noticeId, AdminNoticeEditRequest request, CancellationToken cancellationToken = default)
         {
             await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
 
@@ -185,11 +185,11 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<AdminNoticesRemoveResponse>> DeleteNoticeAsync(int noticeId, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<AdminNoticeRemoveResponse>> DeleteNoticeAsync(int noticeId, CancellationToken cancellationToken = default)
         {
             await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
 
-            return await this.apiClientInternal.DeleteWithSignatureAsync<AdminNoticesRemoveResponse>(
+            return await this.apiClientInternal.DeleteWithSignatureAsync<AdminNoticeRemoveResponse>(
                 signature: this.signature,
                 route: $"admin/notices/{noticeId}",
                 isIncludeNonce: true,

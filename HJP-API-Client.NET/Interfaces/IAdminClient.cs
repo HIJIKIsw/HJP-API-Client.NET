@@ -66,11 +66,11 @@ namespace Hjp.Api.Client.Interfaces
         /// <summary>
         /// お知らせを更新
         /// </summary>
-        Task<ApiResponse<AdminNoticeEditResponse>> EditNoticeAsync(int noticeId, AdminNoticesEditRequest request, CancellationToken cancellationToken = default);
+        Task<ApiResponse<AdminNoticeEditResponse>> EditNoticeAsync(int noticeId, AdminNoticeEditRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// お知らせを削除
         /// </summary>
-        Task<ApiResponse<AdminNoticesRemoveResponse>> DeleteNoticeAsync(int noticeId, CancellationToken cancellationToken = default);
+        Task<ApiResponse<AdminNoticeRemoveResponse>> DeleteNoticeAsync(int noticeId, CancellationToken cancellationToken = default);
     }
 }
