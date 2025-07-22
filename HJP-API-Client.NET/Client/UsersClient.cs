@@ -9,9 +9,6 @@ using Hjp.Shared.Dto.Me.Transactions;
 using Hjp.Shared.Dto.Me.Transfer;
 using Hjp.Shared.Dto.Me.Withdraw;
 using Hjp.Shared.Dto.Lottery;
-using Hjp.Shared.Dto.Auth;
-using Hjp.Shared.Enums;
-using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Me.Lottery;
 using Hjp.Shared.Dto.Users.Search;
 using Hjp.Shared.Dto.Notices.Count;
@@ -19,53 +16,17 @@ using Hjp.Shared.Dto.Notices;
 
 namespace Hjp.Api.Client
 {
-    internal class UsersClient : IUsersClient
+    internal class UsersClient : BaseChildClient, IUsersClient
     {
-        private readonly ApiClientInternal apiClientInternal;
-
-        private string accessToken = null!;
-        private string signature = null!;
-
-        public UsersClient(ApiClientInternal apiClientInternal)
+        public UsersClient(ApiClientInternal apiClientInternal, string signature)
+        : base(apiClientInternal, signature)
         {
-            this.apiClientInternal = apiClientInternal;
-        }
-
-        public async Task<ApiResponse<LoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
-        {
-            var request = new LoginRequest
-            {
-                AccessToken = accessToken,
-                AsPermissionTypeId = PermissionType.User
-            };
-            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
-            if (result.IsSuccess == true)
-            {
-                this.accessToken = accessToken;
-                this.signature = result.Result?.Signature!;
-            }
-            else
-            {
-                this.accessToken = null!;
-                this.signature = null!;
-            }
-            return result;
-        }
-
-        // TODO: 全てのメソッドの先頭にこのメソッドを呼び出すのが決まりとなっていて汚いので共通化する方法を考える
-        private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
-        {
-            var jwtPayload = JwtDecoder.DecodePayload(this.signature);
-            if (jwtPayload.IsExpired() == false)
-            {
-                return;
-            }
-            await this.LoginAsync(this.accessToken, cancellationToken);
+            // Nothind to do.
         }
 
         public async Task<ApiResponse<UserResponse>> GetProfileAsync(CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<UserResponse>(
                 signature: this.signature,
@@ -77,7 +38,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<UserBalanceResponse>(
                 signature: this.signature,
@@ -89,7 +50,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserTransactionsResponse>> GetTransactionsAsync(UserTransactionsRequest? query = null, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<UserTransactionsResponse>(
                 signature: this.signature,
@@ -101,7 +62,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserStatsResponse>> GetStatsAsync(CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<UserStatsResponse>(
                 signature: this.signature,
@@ -113,7 +74,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserDepositResponse>> DepositAsync(UserDepositRequest request, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PostWithSignatureAsync<UserDepositResponse>(
                 signature: this.signature,
@@ -126,7 +87,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserWithdrawResponse>> WithdrawAsync(UserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PostWithSignatureAsync<UserWithdrawResponse>(
                 signature: this.signature,
@@ -139,7 +100,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserTransferResponse>> TransferAsync(UserTransferRequest request, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PostWithSignatureAsync<UserTransferResponse>(
                 signature: this.signature,
@@ -152,7 +113,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
                 signature: this.signature,
@@ -165,7 +126,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<LotteryBankResponse>> GetLotteryBankAsync(CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<LotteryBankResponse>(
                 signature: this.signature,
@@ -177,7 +138,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<UserSearchResponse>> SearchUserAsync(UserSearchRequest? request = null, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             if (request == null)
             {
@@ -193,7 +154,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<NoticesCountResponse>> GetNoticesCountAsync(CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<NoticesCountResponse>(
                 signature: this.signature,
@@ -204,7 +165,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<NoticesResponse>> GetNoticeListAsync(NoticesRequest? request = null, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             if (request == null)
             {
@@ -220,7 +181,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<NoticeDetailResponse>> GetNoticeDetailAsync(int noticeId, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<NoticeDetailResponse>(
                 signature: this.signature,

@@ -1,7 +1,6 @@
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
-using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Admin.Notices;
 using Hjp.Shared.Dto.Admin.Notices.Count;
 using Hjp.Shared.Dto.Admin.Transactions;
@@ -9,57 +8,20 @@ using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
 using Hjp.Shared.Dto.Admin.Users.Search;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
-using Hjp.Shared.Dto.Auth;
-using Hjp.Shared.Enums;
 
 namespace Hjp.Api.Client
 {
-    internal class AdminClient : IAdminClient
+    internal class AdminClient : BaseChildClient, IAdminClient
     {
-        private readonly ApiClientInternal apiClientInternal;
-
-        private string accessToken = null!;
-        private string signature = null!;
-
-        public AdminClient(ApiClientInternal apiClientInternal)
+        public AdminClient(ApiClientInternal apiClientInternal, string signature)
+        : base(apiClientInternal, signature)
         {
-            this.apiClientInternal = apiClientInternal;
-        }
-
-        public async Task<ApiResponse<LoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
-        {
-            var request = new LoginRequest
-            {
-                AccessToken = accessToken,
-                AsPermissionTypeId = PermissionType.Admin
-            };
-            var result = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
-            if (result.IsSuccess == true)
-            {
-                this.accessToken = accessToken;
-                this.signature = result.Result?.Signature!;
-            }
-            else
-            {
-                this.accessToken = null!;
-                this.signature = null!;
-            }
-            return result;
-        }
-
-        private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
-        {
-            var jwtPayload = JwtDecoder.DecodePayload(this.signature);
-            if (jwtPayload.IsExpired() == false)
-            {
-                return;
-            }
-            await this.LoginAsync(this.accessToken, cancellationToken);
+            // Nothind to do.
         }
 
         public async Task<ApiResponse<AdminUserResponse>> GetUserProfileAsync(ulong discordUserId, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<AdminUserResponse>(
                 signature: this.signature,
@@ -71,7 +33,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminUserSearchResponse>> SearchUserAsync(AdminUserSearchRequest? request = null, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             if (request == null)
             {
@@ -87,7 +49,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminUserDepositResponse>> UserDepositAsync(ulong discordUserId, AdminUserDepositRequest request, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserDepositResponse>(
                 signature: this.signature,
@@ -100,7 +62,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminUserWithdrawResponse>> UserWithdrawAsync(ulong discordUserId, AdminUserWithdrawRequest request, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserWithdrawResponse>(
                 signature: this.signature,
@@ -113,7 +75,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminTransactionsResponse>> GetTransactionsAsync(AdminTransactionsRequest? request = null, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<AdminTransactionsResponse>(
                 signature: this.signature,
@@ -125,7 +87,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminNoticesCountResponse>> GetNoticesCountAsync(CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<AdminNoticesCountResponse>(
                 signature: this.signature,
@@ -136,7 +98,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminNoticesResponse>> GetNoticeListAsync(AdminNoticesRequest? request = null, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             if (request == null)
             {
@@ -152,7 +114,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminNoticeDetailResponse>> GetNoticeDetailAsync(int noticeId, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.GetWithSignatureAsync<AdminNoticeDetailResponse>(
                 signature: this.signature,
@@ -163,7 +125,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminNoticePostResponse>> PostNoticeAsync(AdminNoticePostRequest request, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PostWithSignatureAsync<AdminNoticePostResponse>(
                 signature: this.signature,
@@ -175,7 +137,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminNoticeEditResponse>> EditNoticeAsync(int noticeId, AdminNoticeEditRequest request, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PutWithSignatureAsync<AdminNoticeEditResponse>(
                 signature: this.signature,
@@ -187,7 +149,7 @@ namespace Hjp.Api.Client
 
         public async Task<ApiResponse<AdminNoticeRemoveResponse>> RemoveNoticeAsync(int noticeId, CancellationToken cancellationToken = default)
         {
-            await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.DeleteWithSignatureAsync<AdminNoticeRemoveResponse>(
                 signature: this.signature,

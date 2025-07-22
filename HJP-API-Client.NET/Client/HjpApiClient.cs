@@ -2,6 +2,7 @@ using Hjp.Api.Client.Common;
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
+using Hjp.Api.Client.Utilities;
 using Hjp.Shared.Dto.Auth;
 using Hjp.Shared.Dto.System.Maintenance;
 using Hjp.Shared.Dto.System.Version;
@@ -11,6 +12,11 @@ namespace Hjp.Api.Client
     public class HjpApiClient
     {
         private readonly ApiClientInternal apiClientInternal;
+
+        internal delegate Task<ApiResponse<T>> ReLoginDelegate<T>(string accessToken, CancellationToken cancellationToken);
+
+        private string? accessToken;
+        private string? signature;
 
         private UsersClient? usersClient;
         private ModeratorClient? moderatorClient;
@@ -79,70 +85,102 @@ namespace Hjp.Api.Client
         }
 
         /// <summary>
-        /// ユーザとしてログイン
+        /// ログイン
         /// </summary>
         /// <param name="accessToken">アクセストークン</param>
-        public async Task<ApiResponse<LoginResponse>> LoginWithUserAsync(string accessToken, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<LoginResponse>> LoginAsync(string accessToken, CancellationToken cancellationToken = default)
         {
-            var usersClient = new UsersClient(this.apiClientInternal);
-            var result = await usersClient.LoginAsync(accessToken, cancellationToken);
-            this.usersClient = result.IsSuccess == true ? usersClient : null;
-            return result;
+            var response = await this.LoginInternalAsync(accessToken, cancellationToken);
+            if (response.IsSuccess == true)
+            {
+                this.usersClient = new UsersClient(this.apiClientInternal, this.signature!);
+                this.usersClient.OnBeforeMethodAsync += this.AutoReloginWhenTokenExpiredAsync;
+
+                if (response.Result?.PermissionTypeId >= Shared.Enums.PermissionType.Moderator)
+                {
+                    this.moderatorClient = new ModeratorClient(this.apiClientInternal, this.signature!);
+                    this.moderatorClient.OnBeforeMethodAsync += this.AutoReloginWhenTokenExpiredAsync;
+                }
+                else
+                {
+                    this.moderatorClient = null;
+                }
+
+                if (response.Result?.PermissionTypeId >= Shared.Enums.PermissionType.Admin)
+                {
+                    this.adminClient = new AdminClient(this.apiClientInternal, this.signature!);
+                    this.adminClient.OnBeforeMethodAsync += this.AutoReloginWhenTokenExpiredAsync;
+                }
+                else
+                {
+                    this.adminClient = null;
+                }
+            }
+            else
+            {
+                this.Logout();
+            }
+            return response;
         }
 
         /// <summary>
-        /// ユーザからログアウト
+        /// ログアウト
         /// </summary>
-        /// <returns>ログアウトに成功したか</returns>
-        public bool LogoutWithUser()
+        public void Logout()
         {
-            var result = this.usersClient != null;
+            this.accessToken = null;
+            this.signature = null;
             this.usersClient = null;
-            return result;
-        }
-
-        /// <summary>
-        /// モデレータとしてログイン
-        /// </summary>
-        public async Task<ApiResponse<LoginResponse>> LoginWithModeratorAsync(string accessToken, CancellationToken cancellationToken = default)
-        {
-            var moderatorClient = new ModeratorClient(this.apiClientInternal);
-            var result = await moderatorClient.LoginAsync(accessToken, cancellationToken);
-            this.moderatorClient = result.IsSuccess == true ? moderatorClient : null;
-            return result;
-        }
-
-        /// <summary>
-        /// モデレータからログアウト
-        /// </summary>
-        /// <returns>ログアウトに成功したか</returns>
-        public bool LogoutWithModerator()
-        {
-            var result = this.moderatorClient != null;
             this.moderatorClient = null;
-            return result;
-        }
-
-        /// <summary>
-        /// 管理者としてログイン
-        /// </summary>
-        public async Task<ApiResponse<LoginResponse>> LoginWithAdminAsync(string accessToken, CancellationToken cancellationToken = default)
-        {
-            var adminClient = new AdminClient(this.apiClientInternal);
-            var result = await adminClient.LoginAsync(accessToken, cancellationToken);
-            this.adminClient = result.IsSuccess == true ? adminClient : null;
-            return result;
-        }
-
-        /// <summary>
-        /// 管理者からログアウト
-        /// </summary>
-        /// <returns>ログアウトに成功したか</returns>
-        public bool LogoutWithAdmin()
-        {
-            var result = this.adminClient != null;
             this.adminClient = null;
-            return result;
+        }
+
+        // 以下ヘルパーメソッド
+
+        private async Task<ApiResponse<LoginResponse>> LoginInternalAsync(string accessToken, CancellationToken cancellationToken = default)
+        {
+            var request = new LoginRequest
+            {
+                AccessToken = accessToken,
+            };
+            var response = await this.apiClientInternal.PostAsync<LoginResponse>("auth/login", request, null, true, cancellationToken);
+            if (response.IsSuccess == true)
+            {
+                this.accessToken = accessToken;
+                this.signature = response.Result?.Signature!;
+            }
+            else
+            {
+                this.accessToken = null;
+                this.signature = null;
+            }
+            return response;
+        }
+
+        private async Task AutoReloginWhenTokenExpiredAsync(CancellationToken cancellationToken = default)
+        {
+            var jwtPayload = JwtDecoder.DecodePayload(this.signature!);
+            if (jwtPayload.IsExpired() == false)
+            {
+                return;
+            }
+            var response = await this.LoginInternalAsync(this.accessToken!, cancellationToken);
+            if (response.IsSuccess == false)
+            {
+                throw new Exception(response.Message!);
+            }
+            if (this.usersClient != null)
+            {
+                this.usersClient.Signature = this.signature!;
+            }
+            if (this.moderatorClient != null)
+            {
+                this.moderatorClient.Signature = this.signature!;
+            }
+            if (this.adminClient != null)
+            {
+                this.adminClient.Signature = this.signature!;
+            }
         }
     }
 }
