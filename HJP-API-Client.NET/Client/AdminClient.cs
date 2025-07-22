@@ -185,7 +185,7 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<AdminNoticeRemoveResponse>> DeleteNoticeAsync(int noticeId, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<AdminNoticeRemoveResponse>> RemoveNoticeAsync(int noticeId, CancellationToken cancellationToken = default)
         {
             await this.AutoReloginWhenTokenExpiredAsync(cancellationToken);
 

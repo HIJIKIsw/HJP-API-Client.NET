@@ -71,6 +71,6 @@ namespace Hjp.Api.Client.Interfaces
         /// <summary>
         /// お知らせを削除
         /// </summary>
-        Task<ApiResponse<AdminNoticeRemoveResponse>> DeleteNoticeAsync(int noticeId, CancellationToken cancellationToken = default);
+        Task<ApiResponse<AdminNoticeRemoveResponse>> RemoveNoticeAsync(int noticeId, CancellationToken cancellationToken = default);
     }
 }
