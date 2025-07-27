@@ -9,6 +9,7 @@ using Hjp.Shared.Dto.Me.Transfer;
 using Hjp.Shared.Dto.Me.Withdraw;
 using System.Text.Json;
 using Hjp.Shared.Dto.Admin.Notices;
+using Hjp.Shared.Dto.Me.Lottery;
 
 namespace HJP_API_ClientTester
 {
@@ -133,6 +134,7 @@ namespace HJP_API_ClientTester
             {
                 var request = new UserDepositRequest()
                 {
+                    ApplicationId = AppSettings.ApplicationId,
                     Amount = 10,
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                 };
@@ -157,6 +159,7 @@ namespace HJP_API_ClientTester
             {
                 var request = new UserWithdrawRequest()
                 {
+                    ApplicationId = AppSettings.ApplicationId,
                     Amount = 15,
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                 };
@@ -181,6 +184,7 @@ namespace HJP_API_ClientTester
             {
                 var request = new UserTransferRequest()
                 {
+                    ApplicationId = AppSettings.ApplicationId,
                     ToDiscordUserId = 555,
                     Amount = 5,
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
@@ -284,6 +288,7 @@ namespace HJP_API_ClientTester
             {
                 var request = new AdminUserDepositRequest()
                 {
+                    ApplicationId = AppSettings.ApplicationId,
                     Amount = 5,
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()
                 };
@@ -308,6 +313,7 @@ namespace HJP_API_ClientTester
             {
                 var request = new AdminUserWithdrawRequest()
                 {
+                    ApplicationId = AppSettings.ApplicationId,
                     Amount = 10,
                     Description = "TestByTester: " + DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()
                 };
@@ -387,7 +393,11 @@ namespace HJP_API_ClientTester
             button.Enabled = false;
             try
             {
-                var result = await this.hjpApiClient.UsersClient.DrawLotteryAsync();
+                var request = new UserLotteryRequest
+                {
+                    ApplicationId = AppSettings.ApplicationId,
+                };
+                var result = await this.hjpApiClient.UsersClient.DrawLotteryAsync(request);
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)

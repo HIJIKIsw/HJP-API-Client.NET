@@ -34,5 +34,13 @@ namespace Hjp.Api.Client.Tester
                 return configurationManager["AccessToken"]!;
             }
         }
+
+        public static int ApplicationId
+        {
+            get
+            {
+                return int.Parse(configurationManager["ApplicationId"]!);
+            }
+        }
     }
 }
