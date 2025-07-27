@@ -58,7 +58,7 @@ namespace Hjp.Api.Client.Interfaces
         /// <summary>
         /// くじを引く
         /// </summary>
-        Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(CancellationToken cancellationToken = default);
+        Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(UserLotteryRequest request ,CancellationToken cancellationToken = default);
 
         /// <summary>
         /// くじの積立金を取得する

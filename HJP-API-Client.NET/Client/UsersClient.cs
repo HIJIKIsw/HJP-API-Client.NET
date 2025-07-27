@@ -111,14 +111,14 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(UserLotteryRequest request, CancellationToken cancellationToken = default)
         {
             await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
             return await this.apiClientInternal.PostWithSignatureAsync<UserLotteryResponse>(
                 signature: this.signature,
                 route: "me/lottery/draw",
-                body: null!,
+                body: request,
                 query: null,
                 isIncludeNonce: true,
                 cancellationToken: cancellationToken);
