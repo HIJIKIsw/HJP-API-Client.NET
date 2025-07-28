@@ -82,8 +82,8 @@ namespace Hjp.Api.Client.Interfaces
         /// <summary>
         /// 連携アプリを登録
         /// </summary>
-        Task<ApiResponse<AdminIntegrationApplicationPostResponse>> RegisterIntegrationApplicationAsync(AdminIntegrationApplicationPostRequest request, CancellationToken cancellationToken = default);
-        
+        Task<ApiResponse<AdminIntegrationApplicationRegisterResponse>> RegisterIntegrationApplicationAsync(AdminIntegrationApplicationRegisterRequest request, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// 連携アプリを編集
         /// </summary>

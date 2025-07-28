@@ -170,11 +170,11 @@ namespace Hjp.Api.Client
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<ApiResponse<AdminIntegrationApplicationPostResponse>> RegisterIntegrationApplicationAsync(AdminIntegrationApplicationPostRequest request, CancellationToken cancellationToken = default)
+        public async Task<ApiResponse<AdminIntegrationApplicationRegisterResponse>> RegisterIntegrationApplicationAsync(AdminIntegrationApplicationRegisterRequest request, CancellationToken cancellationToken = default)
         {
             await this.InvokeOnBeforeMethodAsync(cancellationToken);
 
-            return await this.apiClientInternal.PostWithSignatureAsync<AdminIntegrationApplicationPostResponse>(
+            return await this.apiClientInternal.PostWithSignatureAsync<AdminIntegrationApplicationRegisterResponse>(
                 signature: this.signature,
                 route: $"admin/integration-applications",
                 body: request,
