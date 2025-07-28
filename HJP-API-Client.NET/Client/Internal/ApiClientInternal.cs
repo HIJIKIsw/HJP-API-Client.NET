@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -17,6 +18,10 @@ namespace Hjp.Api.Client.Internal
 
         public ApiClientInternal(string baseUrl)
         {
+            var handler = new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Brotli
+            };
             this.httpClient = new();
             this.httpClient.BaseAddress = new(baseUrl);
         }
