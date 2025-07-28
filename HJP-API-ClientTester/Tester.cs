@@ -10,6 +10,7 @@ using Hjp.Shared.Dto.Me.Withdraw;
 using System.Text.Json;
 using Hjp.Shared.Dto.Admin.Notices;
 using Hjp.Shared.Dto.Me.Lottery;
+using Hjp.Shared.Dto.Admin.IntegrationApplications;
 
 namespace HJP_API_ClientTester
 {
@@ -654,6 +655,89 @@ namespace HJP_API_ClientTester
             {
                 var result = await this.hjpApiClient.AdminClient.RemoveNoticeAsync(this.lastCreatedNoticeId);
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminGetIntegrationApplicationsButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.AdminClient.GetIntegrationApplicationListAsync();
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        // HACK: ここにメンバを書くべきではないが便宜上こうする
+        private int lastCreatedApplicationId = 2000;
+
+        private async void adminPostIntegrationApplicationButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                var request = new AdminIntegrationApplicationRegisterRequest
+                {
+                    ApplicationId = new Random().Next(),
+                    Name = $"TestByTester: {now}",
+                    IconUrl = "https://placehold.jp/150x150.png",
+                    IsVisible = true,
+                };
+                var result = await this.hjpApiClient.AdminClient.RegisterIntegrationApplicationAsync(request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+                if (result.IsSuccess == true && result.Result != null)
+                {
+                    this.lastCreatedApplicationId = result.Result.ApplicationId;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminEditIntegrationApplicationButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                var request = new AdminIntegrationApplicationEditRequest
+                {
+                    Name = $"TestByTester: {now}",
+                    IconUrl = "https://placehold.jp/150x150.png",
+                    IsVisible = true,
+                };
+                var result = await this.hjpApiClient.AdminClient.EditIntegrationApplicationAsync(this.lastCreatedApplicationId, request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+                if (result.IsSuccess == true && result.Result != null)
+                {
+                    this.lastCreatedApplicationId = result.Result.ApplicationId;
+                }
             }
             catch (Exception ex)
             {

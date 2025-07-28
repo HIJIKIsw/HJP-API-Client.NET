@@ -60,6 +60,9 @@
             adminEditNoticeButton = new Button();
             adminDeleteNoticeButton = new Button();
             logTextBox = new TextBox();
+            adminGetIntegrationApplicationsButton = new Button();
+            adminPostIntegrationApplicationButton = new Button();
+            adminEditIntegrationApplicationButton = new Button();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -97,6 +100,9 @@
             flowLayoutPanel1.Controls.Add(adminGetNoticeDetailButton);
             flowLayoutPanel1.Controls.Add(adminEditNoticeButton);
             flowLayoutPanel1.Controls.Add(adminDeleteNoticeButton);
+            flowLayoutPanel1.Controls.Add(adminGetIntegrationApplicationsButton);
+            flowLayoutPanel1.Controls.Add(adminPostIntegrationApplicationButton);
+            flowLayoutPanel1.Controls.Add(adminEditIntegrationApplicationButton);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(12, 12);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -532,6 +538,48 @@
             logTextBox.Size = new Size(913, 743);
             logTextBox.TabIndex = 2;
             // 
+            // adminGetIntegrationApplicationsButton
+            // 
+            adminGetIntegrationApplicationsButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            adminGetIntegrationApplicationsButton.AutoSize = true;
+            adminGetIntegrationApplicationsButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            adminGetIntegrationApplicationsButton.ForeColor = Color.Red;
+            adminGetIntegrationApplicationsButton.Location = new Point(3, 933);
+            adminGetIntegrationApplicationsButton.Name = "adminGetIntegrationApplicationsButton";
+            adminGetIntegrationApplicationsButton.Size = new Size(293, 25);
+            adminGetIntegrationApplicationsButton.TabIndex = 60;
+            adminGetIntegrationApplicationsButton.Text = "GET admin/integration-applications";
+            adminGetIntegrationApplicationsButton.UseVisualStyleBackColor = true;
+            adminGetIntegrationApplicationsButton.Click += adminGetIntegrationApplicationsButton_Click;
+            // 
+            // adminPostIntegrationApplicationButton
+            // 
+            adminPostIntegrationApplicationButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            adminPostIntegrationApplicationButton.AutoSize = true;
+            adminPostIntegrationApplicationButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            adminPostIntegrationApplicationButton.ForeColor = Color.Red;
+            adminPostIntegrationApplicationButton.Location = new Point(3, 964);
+            adminPostIntegrationApplicationButton.Name = "adminPostIntegrationApplicationButton";
+            adminPostIntegrationApplicationButton.Size = new Size(293, 25);
+            adminPostIntegrationApplicationButton.TabIndex = 61;
+            adminPostIntegrationApplicationButton.Text = "POST admin/integration-applications";
+            adminPostIntegrationApplicationButton.UseVisualStyleBackColor = true;
+            adminPostIntegrationApplicationButton.Click += adminPostIntegrationApplicationButton_Click;
+            // 
+            // adminEditIntegrationApplicationButton
+            // 
+            adminEditIntegrationApplicationButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            adminEditIntegrationApplicationButton.AutoSize = true;
+            adminEditIntegrationApplicationButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            adminEditIntegrationApplicationButton.ForeColor = Color.Red;
+            adminEditIntegrationApplicationButton.Location = new Point(3, 995);
+            adminEditIntegrationApplicationButton.Name = "adminEditIntegrationApplicationButton";
+            adminEditIntegrationApplicationButton.Size = new Size(293, 25);
+            adminEditIntegrationApplicationButton.TabIndex = 62;
+            adminEditIntegrationApplicationButton.Text = "PUT admin/integration-applications/{applicationId}";
+            adminEditIntegrationApplicationButton.UseVisualStyleBackColor = true;
+            adminEditIntegrationApplicationButton.Click += adminEditIntegrationApplicationButton_Click;
+            // 
             // Tester
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -581,5 +629,8 @@
         private Button adminGetNoticeDetailButton;
         private Button adminEditNoticeButton;
         private Button adminDeleteNoticeButton;
+        private Button adminGetIntegrationApplicationsButton;
+        private Button adminPostIntegrationApplicationButton;
+        private Button adminEditIntegrationApplicationButton;
     }
 }
