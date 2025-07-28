@@ -1,6 +1,7 @@
 using Hjp.Api.Client.Dto;
 using Hjp.Api.Client.Interfaces;
 using Hjp.Api.Client.Internal;
+using Hjp.Shared.Dto.Admin.IntegrationApplications;
 using Hjp.Shared.Dto.Admin.Notices;
 using Hjp.Shared.Dto.Admin.Notices.Count;
 using Hjp.Shared.Dto.Admin.Transactions;
@@ -154,6 +155,41 @@ namespace Hjp.Api.Client
             return await this.apiClientInternal.DeleteWithSignatureAsync<AdminNoticeRemoveResponse>(
                 signature: this.signature,
                 route: $"admin/notices/{noticeId}",
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminIntegrationApplicationsResponse>> GetIntegrationApplicationListAsync(CancellationToken cancellationToken = default)
+        {
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
+
+            return await this.apiClientInternal.GetWithSignatureAsync<AdminIntegrationApplicationsResponse>(
+                signature: this.signature,
+                route: $"admin/integration-applications",
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminIntegrationApplicationPostResponse>> RegisterIntegrationApplicationAsync(AdminIntegrationApplicationPostRequest request, CancellationToken cancellationToken = default)
+        {
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
+
+            return await this.apiClientInternal.PostWithSignatureAsync<AdminIntegrationApplicationPostResponse>(
+                signature: this.signature,
+                route: $"admin/integration-applications",
+                body: request,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminIntegrationApplicationEditResponse>> EditIntegrationApplicationAsync(int applicationId, AdminIntegrationApplicationEditRequest request, CancellationToken cancellationToken = default)
+        {
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
+
+            return await this.apiClientInternal.PutWithSignatureAsync<AdminIntegrationApplicationEditResponse>(
+                signature: this.signature,
+                route: $"admin/integration-applications/{applicationId}",
+                body: request,
                 isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }

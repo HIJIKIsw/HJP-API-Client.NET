@@ -1,4 +1,5 @@
 using Hjp.Api.Client.Dto;
+using Hjp.Shared.Dto.Admin.IntegrationApplications;
 using Hjp.Shared.Dto.Admin.Notices;
 using Hjp.Shared.Dto.Admin.Notices.Count;
 using Hjp.Shared.Dto.Admin.Transactions;
@@ -72,5 +73,20 @@ namespace Hjp.Api.Client.Interfaces
         /// お知らせを削除
         /// </summary>
         Task<ApiResponse<AdminNoticeRemoveResponse>> RemoveNoticeAsync(int noticeId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 連携アプリの一覧を取得
+        /// </summary>
+        Task<ApiResponse<AdminIntegrationApplicationsResponse>> GetIntegrationApplicationListAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 連携アプリを登録
+        /// </summary>
+        Task<ApiResponse<AdminIntegrationApplicationPostResponse>> RegisterIntegrationApplicationAsync(AdminIntegrationApplicationPostRequest request, CancellationToken cancellationToken = default);
+        
+        /// <summary>
+        /// 連携アプリを編集
+        /// </summary>
+        Task<ApiResponse<AdminIntegrationApplicationEditResponse>> EditIntegrationApplicationAsync(int applicationId, AdminIntegrationApplicationEditRequest request, CancellationToken cancellationToken = default);
     }
 }
