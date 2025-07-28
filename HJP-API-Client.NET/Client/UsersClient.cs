@@ -13,6 +13,7 @@ using Hjp.Shared.Dto.Me.Lottery;
 using Hjp.Shared.Dto.Users.Search;
 using Hjp.Shared.Dto.Notices.Count;
 using Hjp.Shared.Dto.Notices;
+using Hjp.Shared.Dto.Me.Balance.History;
 
 namespace Hjp.Api.Client
 {
@@ -44,6 +45,22 @@ namespace Hjp.Api.Client
                 signature: this.signature,
                 route: "me/balance",
                 query: null,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<UserBalanceHistoryResponse>> GetBalanceHistoryAsync(UserBalanceHistoryRequest request, CancellationToken cancellationToken = default)
+        {
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
+
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            return await this.apiClientInternal.GetWithSignatureAsync<UserBalanceHistoryResponse>(
+                signature: this.signature,
+                route: "me/balance/history",
+                query: request,
                 isIncludeNonce: true,
                 cancellationToken: cancellationToken);
         }

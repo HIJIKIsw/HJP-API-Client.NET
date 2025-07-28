@@ -11,6 +11,7 @@ using Hjp.Shared.Dto.Lottery;
 using Hjp.Shared.Dto.Users.Search;
 using Hjp.Shared.Dto.Notices;
 using Hjp.Shared.Dto.Notices.Count;
+using Hjp.Shared.Dto.Me.Balance.History;
 
 namespace Hjp.Api.Client.Interfaces
 {
@@ -25,6 +26,11 @@ namespace Hjp.Api.Client.Interfaces
         /// ユーザの残高を取得
         /// </summary>
         Task<ApiResponse<UserBalanceResponse>> GetBalanceAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// ユーザの残高履歴を取得
+        /// </summary>
+        Task<ApiResponse<UserBalanceHistoryResponse>> GetBalanceHistoryAsync(UserBalanceHistoryRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// ユーザの取引履歴を取得
@@ -58,7 +64,7 @@ namespace Hjp.Api.Client.Interfaces
         /// <summary>
         /// くじを引く
         /// </summary>
-        Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(UserLotteryRequest request ,CancellationToken cancellationToken = default);
+        Task<ApiResponse<UserLotteryResponse>> DrawLotteryAsync(UserLotteryRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// くじの積立金を取得する

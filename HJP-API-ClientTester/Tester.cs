@@ -11,6 +11,7 @@ using System.Text.Json;
 using Hjp.Shared.Dto.Admin.Notices;
 using Hjp.Shared.Dto.Me.Lottery;
 using Hjp.Shared.Dto.Admin.IntegrationApplications;
+using Hjp.Shared.Dto.Me.Balance.History;
 
 namespace HJP_API_ClientTester
 {
@@ -738,6 +739,32 @@ namespace HJP_API_ClientTester
                 {
                     this.lastCreatedApplicationId = result.Result.ApplicationId;
                 }
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void getBalanceHistoryButton_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new UserBalanceHistoryRequest
+                {
+                    From = DateOnly.FromDateTime(DateTime.Now.AddDays(-14)),
+                    To = DateOnly.FromDateTime(DateTime.Now),
+                    Sort = Hjp.Shared.Enums.SortOrder.Ascending,
+                    TimeZoneId = TimeZoneInfo.Local.Id,
+                };
+                var result = await this.hjpApiClient.UsersClient.GetBalanceHistoryAsync(request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
             {

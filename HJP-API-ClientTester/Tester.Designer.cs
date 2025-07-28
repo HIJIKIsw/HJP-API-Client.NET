@@ -59,10 +59,11 @@
             adminGetNoticeDetailButton = new Button();
             adminEditNoticeButton = new Button();
             adminDeleteNoticeButton = new Button();
-            logTextBox = new TextBox();
             adminGetIntegrationApplicationsButton = new Button();
             adminPostIntegrationApplicationButton = new Button();
             adminEditIntegrationApplicationButton = new Button();
+            logTextBox = new TextBox();
+            getBalanceHistoryButton = new Button();
             flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -77,6 +78,7 @@
             flowLayoutPanel1.Controls.Add(searchUserButton);
             flowLayoutPanel1.Controls.Add(getProfileButton);
             flowLayoutPanel1.Controls.Add(getBalanceButton);
+            flowLayoutPanel1.Controls.Add(getBalanceHistoryButton);
             flowLayoutPanel1.Controls.Add(getTransactionsButton);
             flowLayoutPanel1.Controls.Add(getStatsButton);
             flowLayoutPanel1.Controls.Add(depositButton);
@@ -213,7 +215,7 @@
             getTransactionsButton.AutoSize = true;
             getTransactionsButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             getTransactionsButton.ForeColor = Color.DodgerBlue;
-            getTransactionsButton.Location = new Point(3, 220);
+            getTransactionsButton.Location = new Point(3, 251);
             getTransactionsButton.Name = "getTransactionsButton";
             getTransactionsButton.Size = new Size(293, 25);
             getTransactionsButton.TabIndex = 30;
@@ -227,7 +229,7 @@
             getStatsButton.AutoSize = true;
             getStatsButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             getStatsButton.ForeColor = Color.DodgerBlue;
-            getStatsButton.Location = new Point(3, 251);
+            getStatsButton.Location = new Point(3, 282);
             getStatsButton.Name = "getStatsButton";
             getStatsButton.Size = new Size(293, 25);
             getStatsButton.TabIndex = 31;
@@ -241,7 +243,7 @@
             depositButton.AutoSize = true;
             depositButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             depositButton.ForeColor = Color.DodgerBlue;
-            depositButton.Location = new Point(3, 282);
+            depositButton.Location = new Point(3, 313);
             depositButton.Name = "depositButton";
             depositButton.Size = new Size(293, 25);
             depositButton.TabIndex = 32;
@@ -255,7 +257,7 @@
             withdrawButton.AutoSize = true;
             withdrawButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             withdrawButton.ForeColor = Color.DodgerBlue;
-            withdrawButton.Location = new Point(3, 313);
+            withdrawButton.Location = new Point(3, 344);
             withdrawButton.Name = "withdrawButton";
             withdrawButton.Size = new Size(293, 25);
             withdrawButton.TabIndex = 33;
@@ -269,7 +271,7 @@
             transferButton.AutoSize = true;
             transferButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             transferButton.ForeColor = Color.DodgerBlue;
-            transferButton.Location = new Point(3, 344);
+            transferButton.Location = new Point(3, 375);
             transferButton.Name = "transferButton";
             transferButton.Size = new Size(293, 25);
             transferButton.TabIndex = 34;
@@ -283,7 +285,7 @@
             lotteryButton.AutoSize = true;
             lotteryButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             lotteryButton.ForeColor = Color.DodgerBlue;
-            lotteryButton.Location = new Point(3, 375);
+            lotteryButton.Location = new Point(3, 406);
             lotteryButton.Name = "lotteryButton";
             lotteryButton.Size = new Size(293, 25);
             lotteryButton.TabIndex = 46;
@@ -297,7 +299,7 @@
             getLotteryBank.AutoSize = true;
             getLotteryBank.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             getLotteryBank.ForeColor = Color.DarkOrange;
-            getLotteryBank.Location = new Point(3, 406);
+            getLotteryBank.Location = new Point(3, 437);
             getLotteryBank.Name = "getLotteryBank";
             getLotteryBank.Size = new Size(293, 25);
             getLotteryBank.TabIndex = 47;
@@ -311,7 +313,7 @@
             getNoticeListButton.AutoSize = true;
             getNoticeListButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             getNoticeListButton.ForeColor = Color.Green;
-            getNoticeListButton.Location = new Point(3, 437);
+            getNoticeListButton.Location = new Point(3, 468);
             getNoticeListButton.Name = "getNoticeListButton";
             getNoticeListButton.Size = new Size(293, 25);
             getNoticeListButton.TabIndex = 52;
@@ -325,7 +327,7 @@
             getNoticesCountButton.AutoSize = true;
             getNoticesCountButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             getNoticesCountButton.ForeColor = Color.Green;
-            getNoticesCountButton.Location = new Point(3, 468);
+            getNoticesCountButton.Location = new Point(3, 499);
             getNoticesCountButton.Name = "getNoticesCountButton";
             getNoticesCountButton.Size = new Size(293, 25);
             getNoticesCountButton.TabIndex = 51;
@@ -339,7 +341,7 @@
             getNoticeDetailButton.AutoSize = true;
             getNoticeDetailButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             getNoticeDetailButton.ForeColor = Color.Green;
-            getNoticeDetailButton.Location = new Point(3, 499);
+            getNoticeDetailButton.Location = new Point(3, 530);
             getNoticeDetailButton.Name = "getNoticeDetailButton";
             getNoticeDetailButton.Size = new Size(293, 25);
             getNoticeDetailButton.TabIndex = 53;
@@ -353,7 +355,7 @@
             moderatorRegisterUserButton.AutoSize = true;
             moderatorRegisterUserButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             moderatorRegisterUserButton.ForeColor = Color.DarkViolet;
-            moderatorRegisterUserButton.Location = new Point(3, 530);
+            moderatorRegisterUserButton.Location = new Point(3, 561);
             moderatorRegisterUserButton.Name = "moderatorRegisterUserButton";
             moderatorRegisterUserButton.Size = new Size(293, 25);
             moderatorRegisterUserButton.TabIndex = 35;
@@ -367,7 +369,7 @@
             moderatorResetAccessTokenButton.AutoSize = true;
             moderatorResetAccessTokenButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             moderatorResetAccessTokenButton.ForeColor = Color.DarkViolet;
-            moderatorResetAccessTokenButton.Location = new Point(3, 561);
+            moderatorResetAccessTokenButton.Location = new Point(3, 592);
             moderatorResetAccessTokenButton.Name = "moderatorResetAccessTokenButton";
             moderatorResetAccessTokenButton.Size = new Size(293, 25);
             moderatorResetAccessTokenButton.TabIndex = 37;
@@ -381,7 +383,7 @@
             adminGetUserProfileButton.AutoSize = true;
             adminGetUserProfileButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminGetUserProfileButton.ForeColor = Color.Red;
-            adminGetUserProfileButton.Location = new Point(3, 592);
+            adminGetUserProfileButton.Location = new Point(3, 623);
             adminGetUserProfileButton.Name = "adminGetUserProfileButton";
             adminGetUserProfileButton.Size = new Size(293, 25);
             adminGetUserProfileButton.TabIndex = 40;
@@ -395,7 +397,7 @@
             adminSearchUserButton.AutoSize = true;
             adminSearchUserButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminSearchUserButton.ForeColor = Color.Red;
-            adminSearchUserButton.Location = new Point(3, 623);
+            adminSearchUserButton.Location = new Point(3, 654);
             adminSearchUserButton.Name = "adminSearchUserButton";
             adminSearchUserButton.Size = new Size(293, 25);
             adminSearchUserButton.TabIndex = 44;
@@ -409,7 +411,7 @@
             adminUserDepositButton.AutoSize = true;
             adminUserDepositButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminUserDepositButton.ForeColor = Color.Red;
-            adminUserDepositButton.Location = new Point(3, 654);
+            adminUserDepositButton.Location = new Point(3, 685);
             adminUserDepositButton.Name = "adminUserDepositButton";
             adminUserDepositButton.Size = new Size(293, 25);
             adminUserDepositButton.TabIndex = 41;
@@ -423,7 +425,7 @@
             adminUserWithdrawButton.AutoSize = true;
             adminUserWithdrawButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminUserWithdrawButton.ForeColor = Color.Red;
-            adminUserWithdrawButton.Location = new Point(3, 685);
+            adminUserWithdrawButton.Location = new Point(3, 716);
             adminUserWithdrawButton.Name = "adminUserWithdrawButton";
             adminUserWithdrawButton.Size = new Size(293, 25);
             adminUserWithdrawButton.TabIndex = 42;
@@ -437,7 +439,7 @@
             adminTransactionsButton.AutoSize = true;
             adminTransactionsButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminTransactionsButton.ForeColor = Color.Red;
-            adminTransactionsButton.Location = new Point(3, 716);
+            adminTransactionsButton.Location = new Point(3, 747);
             adminTransactionsButton.Name = "adminTransactionsButton";
             adminTransactionsButton.Size = new Size(293, 25);
             adminTransactionsButton.TabIndex = 43;
@@ -451,7 +453,7 @@
             adminGetNoticeListButton.AutoSize = true;
             adminGetNoticeListButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminGetNoticeListButton.ForeColor = Color.Red;
-            adminGetNoticeListButton.Location = new Point(3, 747);
+            adminGetNoticeListButton.Location = new Point(3, 778);
             adminGetNoticeListButton.Name = "adminGetNoticeListButton";
             adminGetNoticeListButton.Size = new Size(293, 25);
             adminGetNoticeListButton.TabIndex = 54;
@@ -465,7 +467,7 @@
             adminPostNoticeButton.AutoSize = true;
             adminPostNoticeButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminPostNoticeButton.ForeColor = Color.Red;
-            adminPostNoticeButton.Location = new Point(3, 778);
+            adminPostNoticeButton.Location = new Point(3, 809);
             adminPostNoticeButton.Name = "adminPostNoticeButton";
             adminPostNoticeButton.Size = new Size(293, 25);
             adminPostNoticeButton.TabIndex = 55;
@@ -479,7 +481,7 @@
             adminGetNoticesCountButton.AutoSize = true;
             adminGetNoticesCountButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminGetNoticesCountButton.ForeColor = Color.Red;
-            adminGetNoticesCountButton.Location = new Point(3, 809);
+            adminGetNoticesCountButton.Location = new Point(3, 840);
             adminGetNoticesCountButton.Name = "adminGetNoticesCountButton";
             adminGetNoticesCountButton.Size = new Size(293, 25);
             adminGetNoticesCountButton.TabIndex = 56;
@@ -493,7 +495,7 @@
             adminGetNoticeDetailButton.AutoSize = true;
             adminGetNoticeDetailButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminGetNoticeDetailButton.ForeColor = Color.Red;
-            adminGetNoticeDetailButton.Location = new Point(3, 840);
+            adminGetNoticeDetailButton.Location = new Point(3, 871);
             adminGetNoticeDetailButton.Name = "adminGetNoticeDetailButton";
             adminGetNoticeDetailButton.Size = new Size(293, 25);
             adminGetNoticeDetailButton.TabIndex = 57;
@@ -507,7 +509,7 @@
             adminEditNoticeButton.AutoSize = true;
             adminEditNoticeButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminEditNoticeButton.ForeColor = Color.Red;
-            adminEditNoticeButton.Location = new Point(3, 871);
+            adminEditNoticeButton.Location = new Point(3, 902);
             adminEditNoticeButton.Name = "adminEditNoticeButton";
             adminEditNoticeButton.Size = new Size(293, 25);
             adminEditNoticeButton.TabIndex = 58;
@@ -521,7 +523,7 @@
             adminDeleteNoticeButton.AutoSize = true;
             adminDeleteNoticeButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminDeleteNoticeButton.ForeColor = Color.Red;
-            adminDeleteNoticeButton.Location = new Point(3, 902);
+            adminDeleteNoticeButton.Location = new Point(3, 933);
             adminDeleteNoticeButton.Name = "adminDeleteNoticeButton";
             adminDeleteNoticeButton.Size = new Size(293, 25);
             adminDeleteNoticeButton.TabIndex = 59;
@@ -529,22 +531,13 @@
             adminDeleteNoticeButton.UseVisualStyleBackColor = true;
             adminDeleteNoticeButton.Click += adminDeleteNoticeButton_Click;
             // 
-            // logTextBox
-            // 
-            logTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            logTextBox.Location = new Point(352, 12);
-            logTextBox.Multiline = true;
-            logTextBox.Name = "logTextBox";
-            logTextBox.Size = new Size(913, 743);
-            logTextBox.TabIndex = 2;
-            // 
             // adminGetIntegrationApplicationsButton
             // 
             adminGetIntegrationApplicationsButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             adminGetIntegrationApplicationsButton.AutoSize = true;
             adminGetIntegrationApplicationsButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminGetIntegrationApplicationsButton.ForeColor = Color.Red;
-            adminGetIntegrationApplicationsButton.Location = new Point(3, 933);
+            adminGetIntegrationApplicationsButton.Location = new Point(3, 964);
             adminGetIntegrationApplicationsButton.Name = "adminGetIntegrationApplicationsButton";
             adminGetIntegrationApplicationsButton.Size = new Size(293, 25);
             adminGetIntegrationApplicationsButton.TabIndex = 60;
@@ -558,7 +551,7 @@
             adminPostIntegrationApplicationButton.AutoSize = true;
             adminPostIntegrationApplicationButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminPostIntegrationApplicationButton.ForeColor = Color.Red;
-            adminPostIntegrationApplicationButton.Location = new Point(3, 964);
+            adminPostIntegrationApplicationButton.Location = new Point(3, 995);
             adminPostIntegrationApplicationButton.Name = "adminPostIntegrationApplicationButton";
             adminPostIntegrationApplicationButton.Size = new Size(293, 25);
             adminPostIntegrationApplicationButton.TabIndex = 61;
@@ -572,13 +565,36 @@
             adminEditIntegrationApplicationButton.AutoSize = true;
             adminEditIntegrationApplicationButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             adminEditIntegrationApplicationButton.ForeColor = Color.Red;
-            adminEditIntegrationApplicationButton.Location = new Point(3, 995);
+            adminEditIntegrationApplicationButton.Location = new Point(3, 1026);
             adminEditIntegrationApplicationButton.Name = "adminEditIntegrationApplicationButton";
             adminEditIntegrationApplicationButton.Size = new Size(293, 25);
             adminEditIntegrationApplicationButton.TabIndex = 62;
             adminEditIntegrationApplicationButton.Text = "PUT admin/integration-applications/{applicationId}";
             adminEditIntegrationApplicationButton.UseVisualStyleBackColor = true;
             adminEditIntegrationApplicationButton.Click += adminEditIntegrationApplicationButton_Click;
+            // 
+            // logTextBox
+            // 
+            logTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            logTextBox.Location = new Point(352, 12);
+            logTextBox.Multiline = true;
+            logTextBox.Name = "logTextBox";
+            logTextBox.Size = new Size(913, 743);
+            logTextBox.TabIndex = 2;
+            // 
+            // getBalanceHistoryButton
+            // 
+            getBalanceHistoryButton.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            getBalanceHistoryButton.AutoSize = true;
+            getBalanceHistoryButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            getBalanceHistoryButton.ForeColor = Color.DodgerBlue;
+            getBalanceHistoryButton.Location = new Point(3, 220);
+            getBalanceHistoryButton.Name = "getBalanceHistoryButton";
+            getBalanceHistoryButton.Size = new Size(293, 25);
+            getBalanceHistoryButton.TabIndex = 63;
+            getBalanceHistoryButton.Text = "me/balance/history";
+            getBalanceHistoryButton.UseVisualStyleBackColor = true;
+            getBalanceHistoryButton.Click += getBalanceHistoryButton_Click;
             // 
             // Tester
             // 
@@ -632,5 +648,6 @@
         private Button adminGetIntegrationApplicationsButton;
         private Button adminPostIntegrationApplicationButton;
         private Button adminEditIntegrationApplicationButton;
+        private Button getBalanceHistoryButton;
     }
 }
