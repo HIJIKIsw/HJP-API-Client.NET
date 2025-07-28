@@ -16,13 +16,21 @@ namespace Hjp.Api.Client.Internal
         private static readonly Encoding postBodyEncoding = Encoding.UTF8;
         private static readonly string postBodyContentType = "application/json";
 
-        public ApiClientInternal(string baseUrl)
+        public ApiClientInternal(string baseUrl, bool isAutomaticDecompression)
         {
-            var handler = new HttpClientHandler
+            if (isAutomaticDecompression == true)
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Brotli
-            };
-            this.httpClient = new();
+                var handler = new HttpClientHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Brotli
+                };
+                this.httpClient = new(handler);
+            }
+            else
+            {
+                this.httpClient = new();
+            }
+
             this.httpClient.BaseAddress = new(baseUrl);
         }
 

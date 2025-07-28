@@ -55,9 +55,9 @@ namespace Hjp.Api.Client
         /// </summary>
         /// <param name="baseUrl">APIのベースURL</param>
         /// <param name="apiKey">APIキー</param>
-        public HjpApiClient(string baseUrl)
+        public HjpApiClient(string baseUrl, bool isAutomaticDecompression = true)
         {
-            this.apiClientInternal = new(baseUrl);
+            this.apiClientInternal = new(baseUrl, isAutomaticDecompression);
         }
 
         /// <summary>
