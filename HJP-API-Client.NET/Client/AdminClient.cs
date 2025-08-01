@@ -7,6 +7,7 @@ using Hjp.Shared.Dto.Admin.Notices.Count;
 using Hjp.Shared.Dto.Admin.Transactions;
 using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
+using Hjp.Shared.Dto.Admin.Users.Purchase;
 using Hjp.Shared.Dto.Admin.Users.Search;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
 
@@ -68,6 +69,19 @@ namespace Hjp.Api.Client
             return await this.apiClientInternal.PostWithSignatureAsync<AdminUserWithdrawResponse>(
                 signature: this.signature,
                 route: $"admin/users/{discordUserId}/withdraw",
+                body: request,
+                query: null,
+                isIncludeNonce: true,
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<ApiResponse<AdminUserPurchaseResponse>> UserPurchaseAsync(ulong discordUserId, AdminUserPurchaseRequest request, CancellationToken cancellationToken = default)
+        {
+            await this.InvokeOnBeforeMethodAsync(cancellationToken);
+
+            return await this.apiClientInternal.PostWithSignatureAsync<AdminUserPurchaseResponse>(
+                signature: this.signature,
+                route: $"admin/users/{discordUserId}/purchase",
                 body: request,
                 query: null,
                 isIncludeNonce: true,

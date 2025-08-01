@@ -5,6 +5,7 @@ using Hjp.Shared.Dto.Admin.Notices.Count;
 using Hjp.Shared.Dto.Admin.Transactions;
 using Hjp.Shared.Dto.Admin.Users;
 using Hjp.Shared.Dto.Admin.Users.Deposit;
+using Hjp.Shared.Dto.Admin.Users.Purchase;
 using Hjp.Shared.Dto.Admin.Users.Search;
 using Hjp.Shared.Dto.Admin.Users.Withdraw;
 
@@ -37,6 +38,13 @@ namespace Hjp.Api.Client.Interfaces
         /// <param name="discordUserId">出金対象DiscordユーザID</param>
         /// <param name="request">出金情報</param>
         Task<ApiResponse<AdminUserWithdrawResponse>> UserWithdrawAsync(ulong discordUserId, AdminUserWithdrawRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// ユーザの購入
+        /// </summary>
+        /// <param name="discordUserId">購入者DiscordユーザID</param>
+        /// <param name="request">購入情報</param>
+        Task<ApiResponse<AdminUserPurchaseResponse>> UserPurchaseAsync(ulong discordUserId, AdminUserPurchaseRequest request, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 取引情報を取得
