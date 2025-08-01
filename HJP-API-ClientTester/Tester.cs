@@ -12,6 +12,10 @@ using Hjp.Shared.Dto.Admin.Notices;
 using Hjp.Shared.Dto.Me.Lottery;
 using Hjp.Shared.Dto.Admin.IntegrationApplications;
 using Hjp.Shared.Dto.Me.Balance.History;
+using Hjp.Shared.Dto.Moderator.Users.Lottery;
+using Hjp.Shared.Dto.Moderator.Users.Transfer;
+using Hjp.Shared.Dto.Moderator.Users.ServerActivityReward;
+using Hjp.Shared.Dto.Admin.Users.Purchase;
 
 namespace HJP_API_ClientTester
 {
@@ -764,6 +768,124 @@ namespace HJP_API_ClientTester
                     TimeZoneId = TimeZoneInfo.Local.Id,
                 };
                 var result = await this.hjpApiClient.UsersClient.GetBalanceHistoryAsync(request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void moderatorGetUserBalanceAsync_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var result = await this.hjpApiClient.ModeratorClient.GetUserBalanceAsync(8888);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void moderatorDrawUserLotteryAsync_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new ModeratorUserLotteryRequest
+                {
+                    ApplicationId = AppSettings.ApplicationId
+                };
+                var result = await this.hjpApiClient.ModeratorClient.DrawUserLotteryAsync(8888, request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void moderatorDepositServerActivityReward_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new ModeratorServerActivityRewardRequest
+                {
+                    ApplicationId = AppSettings.ApplicationId,
+                    Amount = 100,
+                    Description = "報酬テスト",
+                };
+                var result = await this.hjpApiClient.ModeratorClient.DepositServerActivityRewardAsync(8888, request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void moderatorUserTransfer_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new ModeratorUserTransferRequest
+                {
+                    ApplicationId = AppSettings.ApplicationId,
+                    ToDiscordUserId = 5555,
+                    Amount = 100,
+                    Description = "報酬テスト",
+                };
+                var result = await this.hjpApiClient.ModeratorClient.UserTransferAsync(8888, request);
+                this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
+            }
+            catch (Exception ex)
+            {
+                this.AppendLog("Error: " + ex.Message);
+            }
+            finally
+            {
+                button.Enabled = true;
+            }
+        }
+
+        private async void adminUserPurchase_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            button.Enabled = false;
+            try
+            {
+                var request = new AdminUserPurchaseRequest
+                {
+                    ApplicationId = AppSettings.ApplicationId,
+                    Amount = 100,
+                    Description = "購入テスト",
+                };
+                var result = await this.hjpApiClient.AdminClient.UserPurchaseAsync(8888, request);
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
             }
             catch (Exception ex)
