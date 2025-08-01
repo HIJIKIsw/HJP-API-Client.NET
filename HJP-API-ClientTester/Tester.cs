@@ -858,7 +858,7 @@ namespace HJP_API_ClientTester
                     ApplicationId = AppSettings.ApplicationId,
                     ToDiscordUserId = 5555,
                     Amount = 100,
-                    Description = "報酬テスト",
+                    Description = "送ポテスト",
                 };
                 var result = await this.hjpApiClient.ModeratorClient.UserTransferAsync(8888, request);
                 this.AppendLog($"{button.Name}: " + JsonSerializer.Serialize(result));
